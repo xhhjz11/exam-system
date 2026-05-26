@@ -275,7 +275,7 @@ console.log('Supabase client initialized');
   <div class="submitted-card">
     <div class="icon">&#9989;</div>
     <h2>试卷已提交</h2>
-    <p id="submitted-msg">客观题得分：<strong id="submitted-score"></strong> 分（满分 50 分）</p>
+    <p id="submitted-msg">单选/多选/判断总得分：<strong id="submitted-score"></strong> 分（满分 45 分）</p>
     <p style="color:var(--gray-dark);margin-top:8px;font-size:.9rem">主观题（填空+论述）需管理员批改后公布总分</p>
     <div style="margin-top:24px;background:var(--gray);border-radius:var(--radius);padding:16px;text-align:left">
       <p style="font-size:.85rem;color:var(--success);margin-bottom:8px;font-weight:600">&#9989; 答卷已自动同步到云端，管理员可实时查看并批改</p>
@@ -313,7 +313,7 @@ console.log('Supabase client initialized');
     </div>
     <div style="overflow-x:auto">
       <table>
-        <thead><tr><th>序号</th><th>工号</th><th>姓名</th><th>基地部门</th><th>试卷</th><th>提交时间</th><th>客观题得分</th><th>主观题状态</th><th>总分</th><th>操作</th></tr></thead>
+        <thead><tr><th>序号</th><th>工号</th><th>姓名</th><th>基地部门</th><th>试卷</th><th>提交时间</th><th>单选/多选/判断得分</th><th>主观题状态</th><th>总分</th><th>操作</th></tr></thead>
         <tbody id="submissions-tbody"></tbody>
       </table>
     </div>
@@ -1826,7 +1826,7 @@ function renderGrading(sub) {
   });
 
   // Auto score display
-  html += `<div style="padding:16px;background:var(--primary-light);border-radius:8px;margin-bottom:16px"><strong>客观题自动得分：${sub.autoScore}分</strong></div>`;
+  html += `<div style="padding:16px;background:var(--primary-light);border-radius:8px;margin-bottom:16px"><strong>单选/多选/判断自动得分：${sub.autoScore}分</strong></div>`;
 
   // Save button
   html += `<div class="grade-actions"><button class="btn btn-primary" onclick="saveGrading()">保存批改结果</button></div>`;
