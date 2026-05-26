@@ -1804,7 +1804,9 @@ function renderGrading(sub) {
       if (q.rubric) {
         html += `<div class="gq-ref-label">评分标准：</div><div class="gq-rubric">${q.rubric}</div>`;
       }
-      html += `<div class="grade-input-row"><label>评分：</label><input type="number" id="gscore_${q.id}" min="0" max="${q.score}" value="${ms!==undefined&&ms!==''?ms:''}" placeholder="0~${q.score}"> <span class="max-hint">满分${q.score}分</span></div>`;
+      if (!q.subQuestions || !q.subQuestions.length) {
+        html += `<div class="grade-input-row"><label>评分：</label><input type="number" id="gscore_${q.id}" min="0" max="${q.score}" value="${ms!==undefined&&ms!==''?ms:''}" placeholder="0~${q.score}"> <span class="max-hint">满分${q.score}分</span></div>`;
+      }
       // Sub-questions for essay
       if (q.subQuestions && q.subQuestions.length) {
         html += `<div style="margin:12px 0 8px;padding:10px;background:#fff8e1;border-radius:6px;border-left:4px solid #f9a825"><strong>按小问评分：</strong></div>`;
@@ -1845,10 +1847,13 @@ function saveGrading() {
     const section = paper.sections.find(s => s.id === secId);
     if (!section) return;
     section.questions.forEach(q => {
-      const input = document.getElementById('gscore_' + q.id);
-      const val = input ? input.value.trim() : '';
-      if (val === '') { allFilled = false; }
-      else { manualScores[q.id] = Number(val); }
+      // Only collect main question score if no sub-questions
+      if (!q.subQuestions || !q.subQuestions.length) {
+        const input = document.getElementById('gscore_' + q.id);
+        const val = input ? input.value.trim() : '';
+        if (val === '') { allFilled = false; }
+        else { manualScores[q.id] = Number(val); }
+      }
       // Also collect sub-question scores
       if (q.subQuestions && q.subQuestions.length) {
         q.subQuestions.forEach(sq => {
