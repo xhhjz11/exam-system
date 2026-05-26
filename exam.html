@@ -219,6 +219,15 @@ tr:hover td{background:#f8f9fa}
 @keyframes rowFlash{0%,100%{background:var(--white)}25%{background:#e6f4ea}50%{background:var(--white)}75%{background:#e6f4ea}}
 .row-new{animation:rowFlash 1.5s ease 2}
 </style>
+<!-- Supabase JS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// ==================== SUPABASE CONFIG ====================
+const SUPABASE_URL = 'https://jllpnbzsmyrvnxijheis.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_oD9afg3SoIl5FNCPEq-nqg_ztnzN8FJ';
+const _sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+console.log('Supabase client initialized');
+</script>
 </head>
 <body>
 
@@ -269,7 +278,7 @@ tr:hover td{background:#f8f9fa}
     <p id="submitted-msg">客观题得分：<strong id="submitted-score"></strong> 分（满分 50 分）</p>
     <p style="color:var(--gray-dark);margin-top:8px;font-size:.9rem">主观题（填空+论述）需管理员批改后公布总分</p>
     <div style="margin-top:24px;background:var(--gray);border-radius:var(--radius);padding:16px;text-align:left">
-      <p style="font-size:.85rem;color:var(--gray-dark);margin-bottom:8px">&#128203; 请将以下答卷编码复制发送给管理员（数据已自动同步到云端，无需手动发送）：</p>
+      <p style="font-size:.85rem;color:var(--success);margin-bottom:8px;font-weight:600">&#9989; 答卷已自动同步到云端，管理员可实时查看并批改</p>
       <textarea id="submission-code" readonly style="width:100%;height:80px;border:1px solid var(--gray-border);border-radius:6px;padding:10px;font-size:.75rem;font-family:monospace;resize:none;background:#f8f9fa"></textarea>
       <button class="btn btn-primary btn-sm btn-block" style="margin-top:8px" onclick="copySubmissionCode()">&#128203; 复制答卷编码</button>
     </div>
@@ -297,7 +306,7 @@ tr:hover td{background:#f8f9fa}
           <span id="polling-text">已暂停</span>
         </div>
         <button class="btn btn-primary btn-sm" onclick="syncFromCloud()">&#9729;&#65039; 手动同步</button>
-        <button class="btn btn-primary btn-sm" onclick="showImportModal()">&#128229; 导入答卷</button>
+        <button class="btn btn-outline btn-sm" onclick="showImportModal()">&#128229; 导入答卷编码</button>
         <button class="btn btn-outline btn-sm" onclick="exportSubmissionJSON()">&#128190; 导出数据</button>
       </div>
       <div class="stats" id="stats-area"></div>
@@ -1031,69 +1040,87 @@ const EXAM_DATA = {
     ]
   }
 };
-// ==================== CLOUD SYNC ====================
-const CLOUD_BLOB_URL = 'https://jsonblob.com/api/jsonBlob/019e6451-09e8-741f-89d9-ec21491d12bc';
-
+// ==================== SUPABASE API FUNCTIONS ====================
 async function cloudUpload(submission) {
   try {
-    // Read current cloud data
-    const resp = await fetch(CLOUD_BLOB_URL, { headers: {'Accept':'application/json'} });
-    if (!resp.ok) throw new Error('Cloud read failed');
-    const cloud = await resp.json();
-    // Avoid duplicates
-    if (!cloud.submissions) cloud.submissions = [];
-    const exists = cloud.submissions.some(s => s.id === submission.id);
-    if (!exists) {
-      // Strip code field for cloud storage
-      const {code, ...cleanSub} = submission;
-      cloud.submissions.push(cleanSub);
-    }
-    // Write back
-    const putResp = await fetch(CLOUD_BLOB_URL, {
-      method: 'PUT',
-      headers: {'Content-Type':'application/json', 'Accept':'application/json'},
-      body: JSON.stringify(cloud)
-    });
-    if (!putResp.ok) throw new Error('Cloud write failed');
-    return true;
+    const {code, id, ...cleanSub} = submission;
+    const row = {
+      sub_id: id,
+      emp_id: cleanSub.empId || '',
+      name: cleanSub.name || '',
+      department: cleanSub.department || '',
+      paper_version: cleanSub.paperVersion || 'A',
+      answers: cleanSub.answers || {},
+      submit_time: cleanSub.submitTime || '',
+      auto_score: cleanSub.autoScore || 0,
+      manual_scores: cleanSub.manualScores || {},
+      total_score: cleanSub.totalScore || null,
+      graded: cleanSub.graded || false
+    };
+    const {error} = await _sb.from('submissions').upsert(row, { onConflict: 'sub_id' });
+    if (!error) { console.log('Supabase upload OK'); return true; }
+    console.warn('Supabase upload error:', error.message);
+    return false;
   } catch(e) {
-    console.warn('Cloud sync failed:', e);
+    console.warn('Supabase upload failed:', e);
     return false;
   }
 }
 
 async function cloudDownload() {
   try {
-    const resp = await fetch(CLOUD_BLOB_URL, { headers: {'Accept':'application/json'} });
-    if (!resp.ok) throw new Error('Cloud read failed');
-    const cloud = await resp.json();
-    return cloud.submissions || [];
+    const {data, error} = await _sb
+      .from('submissions')
+      .select('*')
+      .order('created_at', {ascending: false})
+      .limit(1000);
+    if (error) {
+      console.warn('Supabase query error:', error.message);
+      return null;
+    }
+    return (data || []).map(r => ({
+      id: r.sub_id,
+      empId: r.emp_id || '',
+      name: r.name || '',
+      department: r.department || '',
+      paperVersion: r.paper_version || 'A',
+      answers: r.answers || {},
+      submitTime: r.submit_time || '',
+      autoScore: r.auto_score || 0,
+      manualScores: r.manual_scores || {},
+      totalScore: r.total_score || null,
+      graded: r.graded || false
+    }));
   } catch(e) {
-    console.warn('Cloud download failed:', e);
+    console.warn('Supabase download failed:', e);
     return null;
   }
 }
 
 async function cloudSyncManualScores(submissionId, manualScores, graded) {
   try {
-    const resp = await fetch(CLOUD_BLOB_URL, { headers: {'Accept':'application/json'} });
-    if (!resp.ok) throw new Error('Cloud read failed');
-    const cloud = await resp.json();
-    const sub = (cloud.submissions || []).find(s => s.id === submissionId);
-    if (sub) {
-      sub.manualScores = manualScores;
-      sub.graded = graded;
-      const manualTotal = Object.values(manualScores).reduce((a,b)=>a+(Number(b)||0),0);
-      sub.totalScore = sub.autoScore + manualTotal;
-    }
-    const putResp = await fetch(CLOUD_BLOB_URL, {
-      method: 'PUT',
-      headers: {'Content-Type':'application/json', 'Accept':'application/json'},
-      body: JSON.stringify(cloud)
-    });
-    return putResp.ok;
+    const manualTotal = Object.values(manualScores).reduce((a,b) => a + (Number(b)||0), 0);
+    // First get the auto_score from existing record
+    const {data: existing, error: qError} = await _sb
+      .from('submissions')
+      .select('auto_score')
+      .eq('sub_id', submissionId)
+      .single();
+    if (qError) { console.warn('Query error:', qError.message); return false; }
+    const autoScore = (existing && existing.auto_score) || 0;
+    const {error} = await _sb
+      .from('submissions')
+      .update({
+        manual_scores: manualScores,
+        graded: graded,
+        total_score: graded ? (autoScore + manualTotal) : null
+      })
+      .eq('sub_id', submissionId);
+    if (!error) return true;
+    console.warn('Supabase sync error:', error.message);
+    return false;
   } catch(e) {
-    console.warn('Cloud sync scores failed:', e);
+    console.warn('Supabase sync scores failed:', e);
     return false;
   }
 }
