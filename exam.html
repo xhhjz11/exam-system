@@ -197,6 +197,27 @@ tr:hover td{background:#f8f9fa}
   .grade-input-row{margin-left:0}
   .grade-q .gq-student-answer,.grade-q .gq-ref-answer,.grade-q .gq-ref-label,.grade-q .gq-rubric{margin-left:0}
 }
+
+/* ===== Toast Notification ===== */
+.toast-container{position:fixed;top:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px}
+.toast{padding:14px 20px;border-radius:8px;color:var(--white);font-size:.9rem;font-weight:600;box-shadow:0 4px 16px rgba(0,0,0,.15);animation:toastIn .3s ease;display:flex;align-items:center;gap:10px;max-width:360px}
+.toast-success{background:var(--success)}
+.toast-info{background:var(--primary)}
+.toast-warning{background:#e8710a}
+.toast-out{animation:toastOut .3s ease forwards}
+@keyframes toastIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+@keyframes toastOut{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(40px)}}
+
+/* ===== Polling Indicator ===== */
+.polling-indicator{display:flex;align-items:center;gap:6px;font-size:.8rem;color:var(--gray-dark);padding:4px 12px;border-radius:20px;background:var(--gray)}
+.polling-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.polling-dot.active{background:var(--success);animation:pollPulse 1.5s infinite}
+.polling-dot.inactive{background:#bbb;animation:none}
+@keyframes pollPulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(52,168,83,.4)}50%{opacity:.7;box-shadow:0 0 0 6px rgba(52,168,83,0)}}
+
+/* ===== New Row Highlight ===== */
+@keyframes rowFlash{0%,100%{background:var(--white)}25%{background:#e6f4ea}50%{background:var(--white)}75%{background:#e6f4ea}}
+.row-new{animation:rowFlash 1.5s ease 2}
 </style>
 </head>
 <body>
@@ -270,8 +291,12 @@ tr:hover td{background:#f8f9fa}
   <div class="dashboard">
     <div class="dashboard-header">
       <h2>提交记录</h2>
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <button class="btn btn-primary btn-sm" onclick="syncFromCloud()">&#9729;&#65039; 从云端同步</button>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <div class="polling-indicator" id="polling-indicator">
+          <div class="polling-dot inactive" id="polling-dot"></div>
+          <span id="polling-text">已暂停</span>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="syncFromCloud()">&#9729;&#65039; 手动同步</button>
         <button class="btn btn-primary btn-sm" onclick="showImportModal()">&#128229; 导入答卷</button>
         <button class="btn btn-outline btn-sm" onclick="exportSubmissionJSON()">&#128190; 导出数据</button>
       </div>
@@ -326,6 +351,9 @@ tr:hover td{background:#f8f9fa}
     </div>
   </div>
 </div>
+
+<!-- ===== Toast Container ===== -->
+<div class="toast-container" id="toast-container"></div>
 
 <script>
 // ==================== EXAM DATA ====================
@@ -579,8 +607,8 @@ const EXAM_DATA = {
           },
           {
             "id": "A22",
-            "text": "镭射工序反面案例中，未按要求控制工艺参数导致产品出现______，随后申请了特采使用。",
-            "answer": "孔偏",
+            "text": "某工序在生产过程中未按工艺文件要求控制参数，导致产品出现批量质量缺陷。随后该工序申请了特采使用。这一做法最核心的问题在于：用让步接收掩盖了 ______ ，可能导致同类问题反复发生。",
+            "answer": "过程失控的根本原因",
             "score": 2
           },
           {
@@ -1078,6 +1106,108 @@ let answers = {};
 let timerInterval = null;
 let timeLeft = 0;
 let currentGradingId = null;
+let adminPollingInterval = null;
+let lastCloudSubCount = 0;
+
+// ==================== TOAST ====================
+function showToast(message, type = 'info', duration = 4000) {
+  const container = document.getElementById('toast-container');
+  const toast = document.createElement('div');
+  toast.className = 'toast toast-' + type;
+  toast.innerHTML = message;
+  container.appendChild(toast);
+  setTimeout(() => {
+    toast.classList.add('toast-out');
+    setTimeout(() => toast.remove(), 300);
+  }, duration);
+}
+
+// ==================== ADMIN POLLING ====================
+function startAdminPolling() {
+  stopAdminPolling();
+  // Update indicator
+  const dot = document.getElementById('polling-dot');
+  const text = document.getElementById('polling-text');
+  if (dot) dot.className = 'polling-dot active';
+  if (text) text.textContent = '实时监控中';
+
+  // Initial sync
+  pollCloudOnce();
+  // Poll every 10 seconds
+  adminPollingInterval = setInterval(pollCloudOnce, 10000);
+}
+
+function stopAdminPolling() {
+  if (adminPollingInterval) {
+    clearInterval(adminPollingInterval);
+    adminPollingInterval = null;
+  }
+  const dot = document.getElementById('polling-dot');
+  const text = document.getElementById('polling-text');
+  if (dot) dot.className = 'polling-dot inactive';
+  if (text) text.textContent = '已暂停';
+}
+
+async function pollCloudOnce() {
+  try {
+    const cloudSubs = await cloudDownload();
+    if (!cloudSubs) return;
+
+    let submissions = JSON.parse(localStorage.getItem('exam_submissions') || '[]');
+    const existingIds = new Set(submissions.map(s => s.id));
+    let newSubs = [];
+
+    cloudSubs.forEach(cs => {
+      if (!existingIds.has(cs.id)) {
+        if (!cs.manualScores) cs.manualScores = {};
+        if (cs.graded && cs.totalScore === undefined) {
+          cs.totalScore = cs.autoScore + Object.values(cs.manualScores).reduce((a,b)=>a+(Number(b)||0),0);
+        }
+        submissions.push(cs);
+        existingIds.add(cs.id);
+        newSubs.push(cs);
+      } else {
+        // Sync grading results from cloud
+        const local = submissions.find(s => s.id === cs.id);
+        if (cs.graded && cs.manualScores) {
+          local.manualScores = cs.manualScores;
+          local.graded = cs.graded;
+          local.totalScore = cs.totalScore || (cs.autoScore + Object.values(cs.manualScores).reduce((a,b)=>a+(Number(b)||0),0));
+        }
+      }
+    });
+
+    localStorage.setItem('exam_submissions', JSON.stringify(submissions));
+    lastCloudSubCount = cloudSubs.length;
+
+    if (newSubs.length > 0) {
+      renderDashboard();
+      const names = newSubs.map(s => s.name).join('、');
+      showToast('&#128276; 收到 ' + newSubs.length + ' 份新答卷：' + names, 'success', 5000);
+      // Browser notification
+      if (Notification.permission === 'granted') {
+        new Notification('新答卷提醒', { body: '收到 ' + newSubs.length + ' 份新答卷：' + names, icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">📝</text></svg>' });
+      }
+      // Highlight new rows
+      setTimeout(() => {
+        const tbody = document.getElementById('submissions-tbody');
+        if (!tbody) return;
+        const rows = tbody.querySelectorAll('tr');
+        // New submissions are at the end (most recent)
+        const startIdx = Math.max(0, rows.length - newSubs.length);
+        for (let i = startIdx; i < rows.length; i++) {
+          rows[i].classList.add('row-new');
+          setTimeout(() => rows[i].classList.remove('row-new'), 3000);
+        }
+      }, 50);
+    } else if (currentView === 'admin' && document.getElementById('admin-dashboard') && !document.getElementById('admin-dashboard').classList.contains('hidden')) {
+      // No new subs but we're on dashboard - check if grading status changed
+      renderDashboard();
+    }
+  } catch(e) {
+    console.warn('Polling error:', e);
+  }
+}
 
 // ==================== ROUTING ====================
 function route() {
@@ -1093,6 +1223,7 @@ function route() {
 }
 
 function hideAll() {
+  stopAdminPolling();
   ['landing-page','exam-page','submitted-page','admin-login','admin-dashboard','grading-view','score-page'].forEach(id => {
     document.getElementById(id).classList.add('hidden');
   });
@@ -1536,7 +1667,11 @@ function adminLogin() {
 function showDashboard() {
   hideAll();
   document.getElementById('admin-dashboard').classList.remove('hidden');
-  renderDashboard();
+  // Request notification permission
+  if ('Notification' in window && Notification.permission === 'default') {
+    Notification.requestPermission();
+  }
+  startAdminPolling();
 }
 
 function renderDashboard() {
@@ -1581,6 +1716,7 @@ function backToDashboard() {
 // ==================== GRADING ====================
 function openGrading(subId) {
   currentGradingId = subId;
+  stopAdminPolling();
   const submissions = JSON.parse(localStorage.getItem('exam_submissions') || '[]');
   const sub = submissions.find(s => s.id === subId);
   if (!sub) return;
