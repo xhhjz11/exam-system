@@ -1266,41 +1266,56 @@ function showLanding() {
   document.getElementById('landing-page').classList.remove('hidden');
 }
 
-// ==================== ATTEMPT TRACKING ====================
-function getAttemptKey(empId) {
-  return 'examAttempt_' + empId;
-}
-
-function getAttemptCount(empId) {
-  const rec = JSON.parse(localStorage.getItem(getAttemptKey(empId)) || '{"count":0}');
-  return rec.count || 0;
+// ==================== ATTEMPT TRACKING (Cloud) ====================
+async function getAttemptCount(empId) {
+  try {
+    const { count, error } = await _sb.from('submissions')
+      .select('id', { count: 'exact', head: true })
+      .eq('emp_id', empId);
+    if (error) throw error;
+    return count || 0;
+  } catch(e) {
+    console.warn('Cloud attempt check failed, fallback to localStorage:', e);
+    const rec = JSON.parse(localStorage.getItem('examAttempt_' + empId) || '{"count":0}');
+    return rec.count || 0;
+  }
 }
 
 function recordAttempt(empId) {
-  const key = getAttemptKey(empId);
+  // Keep localStorage as local cache
+  const key = 'examAttempt_' + empId;
   const rec = JSON.parse(localStorage.getItem(key) || '{"count":0}');
   rec.count = (rec.count || 0) + 1;
   localStorage.setItem(key, JSON.stringify(rec));
 }
 
+let _attemptDebounce = null;
 function updateAttemptNotice() {
   const empId = document.getElementById('student-id').value.trim();
   const notice = document.getElementById('attempt-notice');
   if (!empId) { notice.textContent = ''; return; }
-  const count = getAttemptCount(empId);
-  if (count === 0) {
-    notice.textContent = '';
-  } else if (count === 1) {
-    notice.textContent = '⚠️ 该工号已参加1次考试，还剩1次机会';
-    notice.style.color = '#e67e22';
-  } else {
-    notice.textContent = '❌ 该工号已用完2次考试机会，无法再次参加';
-    notice.style.color = '#e74c3c';
-    document.getElementById('start-btn').disabled = true;
-  }
+  const btn = document.getElementById('start-btn');
+  btn.disabled = false;
+  notice.textContent = '查询中...';
+  notice.style.color = 'var(--gray-dark)';
+  // Debounce cloud query
+  if (_attemptDebounce) clearTimeout(_attemptDebounce);
+  _attemptDebounce = setTimeout(async () => {
+    const count = await getAttemptCount(empId);
+    if (count === 0) {
+      notice.textContent = '';
+    } else if (count === 1) {
+      notice.textContent = '⚠️ 该工号已参加1次考试，还剩1次机会';
+      notice.style.color = '#e67e22';
+    } else {
+      notice.textContent = '❌ 该工号已用完2次考试机会，无法再次参加';
+      notice.style.color = '#e74c3c';
+      btn.disabled = true;
+    }
+  }, 400);
 }
 
-function startExam() {
+async function startExam() {
   const empId = document.getElementById('student-id').value.trim();
   const name = document.getElementById('student-name').value.trim();
   const dept = document.getElementById('student-dept').value.trim();
@@ -1308,12 +1323,19 @@ function startExam() {
   if (!name) { alert('请输入姓名'); return; }
   if (!dept) { alert('请输入基地部门'); return; }
 
-  // Check attempt count
-  const count = getAttemptCount(empId);
+  // Check attempt count from cloud
+  const btn = document.getElementById('start-btn');
+  btn.disabled = true;
+  btn.textContent = '检查中...';
+  const count = await getAttemptCount(empId);
   if (count >= 2) {
     alert('该工号已用完2次考试机会，无法再次参加考试。');
+    btn.disabled = false;
+    btn.textContent = '开始考试';
+    updateAttemptNotice();
     return;
   }
+  btn.textContent = '开始考试';
 
   studentInfo = { empId, name, dept };
   paperVersion = Math.random() < 0.5 ? 'A' : 'B';
@@ -1332,7 +1354,7 @@ function startExam() {
 function renderExam() {
   const paper = EXAM_DATA[paperVersion];
   const main = document.getElementById('exam-main');
-  let html = `<div style="text-align:center;margin-bottom:20px"><h2 style="color:var(--primary)">${paper.title}</h2><p style="color:var(--gray-dark);font-size:.9rem">考试时间${paper.time}分钟 | 满分${paper.total}分</p><p style="font-size:.9rem">工号：${studentInfo.empId} | 考生：${studentInfo.name} | 基地部门：${studentInfo.department || studentInfo.dept}</p></div>`;
+  let html = `<div style="text-align:center;margin-bottom:20px"><h2 style="color:var(--primary)">${paper.title}</h2><p style="color:var(--gray-dark);font-size:.9rem">考试时间60分钟 | 满分${paper.total}分</p><p style="font-size:.9rem">工号：${studentInfo.empId} | 考生：${studentInfo.name} | 基地部门：${studentInfo.department || studentInfo.dept}</p></div>`;
   paper.sections.forEach(section => {
     html += `<div class="section-block"><h2>${section.name}</h2><div class="section-info">${section.info}</div>`;
     section.questions.forEach(q => {
@@ -1586,8 +1608,8 @@ function submitExam() {
   document.getElementById('submitted-page').classList.remove('hidden');
   document.getElementById('submitted-score').textContent = submission.autoScore;
   document.getElementById('submission-code').value = code;
-  // Show attempt info
-  const attemptCount = getAttemptCount(studentInfo.empId);
+  // Show attempt info (use localStorage cache since cloud upload may be pending)
+  const attemptCount = JSON.parse(localStorage.getItem('examAttempt_' + studentInfo.empId) || '{"count":0}').count || 0;
   const countMsg = document.getElementById('attempt-count-msg');
   if (attemptCount >= 2) {
     countMsg.textContent = '本次为第2次（共2次）考试机会，已全部使用完毕。';
