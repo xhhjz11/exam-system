@@ -470,7 +470,7 @@ console.log('Supabase client initialized');
 
   <div class="landing-card">
 
-    <h1>品质文化能力测评</h1>
+    <h1>品质文化与客户文化管理行为准则测评</h1>
 
     <p class="subtitle">请输入信息后开始考试，系统将随机分配试卷</p>
 
@@ -630,7 +630,7 @@ console.log('Supabase client initialized');
 
       <table>
 
-        <thead><tr><th>序号</th><th>工号</th><th>姓名</th><th>基地部门</th><th>试卷</th><th>提交时间</th><th>单选/多选/判断得分</th><th>主观题状态</th><th>总分</th><th>操作</th></tr></thead>
+        <thead><tr><th>序号</th><th>工号</th><th>姓名</th><th>基地部门</th><th>试卷</th><th>提交时间</th><th>客观题得分</th><th>状态</th><th>总分</th><th>操作</th></tr></thead>
 
         <tbody id="submissions-tbody"></tbody>
 
@@ -4277,7 +4277,7 @@ function showScorePage(subId) {
 
   const failMsg = isFail ? '<div style="background:#fce8e6;color:var(--danger);padding:12px;border-radius:8px;font-size:1.1rem;font-weight:700;margin-bottom:16px;text-align:center">&#9888;&#65039; 成绩未达到及格线（90分），成绩评定为：不及格</div>' : '<div style="background:#e6f4ea;color:#137333;padding:8px;border-radius:8px;font-size:.9rem;margin-bottom:16px;text-align:center">&#9989; 成绩合格</div>';
 
-  let html = `<h2>品质文化能力测评成绩</h2>${failMsg}<div class="student-info">工号：${sub.empId || '-'} | 考生：${sub.name} | 基地部门：${sub.department} | 试卷：${sub.paperVersion}卷</div><div class="total-score" style="${isFail?'color:var(--danger)':''}">${sub.totalScore} <small>/ ${paper.total}分</small></div><table><thead><tr><th>题型</th><th>得分</th><th>满分</th></tr></thead><tbody>`;
+  let html = `<h2>品质文化与客户文化管理行为准则测评成绩</h2>${failMsg}<div class="student-info">工号：${sub.empId || '-'} | 考生：${sub.name} | 基地部门：${sub.department} | 试卷：${sub.paperVersion}卷</div><div class="total-score" style="${isFail?'color:var(--danger)':''}">${sub.totalScore} <small>/ ${paper.total}分</small></div><table><thead><tr><th>题型</th><th>得分</th><th>满分</th></tr></thead><tbody>`;
 
   sections.forEach(s => {
 
