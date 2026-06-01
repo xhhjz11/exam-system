@@ -1,0 +1,4307 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>品质文化与客户文化管理行为准则测评</title>
+
+<style>
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{--primary:#1a73e8;--primary-dark:#1557b0;--primary-light:#e8f0fe;--success:#34a853;--danger:#ea4335;--warning:#fbbc04;--gray:#f1f3f4;--gray-dark:#5f6368;--gray-border:#dadce0;--white:#fff;--shadow:0 1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.08);--radius:8px}
+
+html{font-size:16px;scroll-behavior:smooth}
+
+body{font-family:"PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;background:#f5f7fa;color:#202124;line-height:1.6;min-height:100vh}
+
+.hidden{display:none!important}
+
+
+
+/* ===== Landing Page ===== */
+
+.landing{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(135deg,#1a73e8 0%,#4285f4 100%)}
+
+.landing-card{background:var(--white);border-radius:16px;padding:48px 40px;width:100%;max-width:460px;box-shadow:0 8px 32px rgba(0,0,0,.15);text-align:center}
+
+.landing-card h1{font-size:1.75rem;color:var(--primary);margin-bottom:8px}
+
+.landing-card .subtitle{color:var(--gray-dark);font-size:.95rem;margin-bottom:32px}
+
+.landing-card .form-group{margin-bottom:20px;text-align:left}
+
+.landing-card label{display:block;font-weight:600;margin-bottom:6px;font-size:.9rem;color:#3c4043}
+
+.landing-card input{width:100%;padding:12px 16px;border:2px solid var(--gray-border);border-radius:var(--radius);font-size:1rem;transition:border-color .2s;font-family:inherit}
+
+.landing-card input:focus{outline:none;border-color:var(--primary)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 32px;border:none;border-radius:var(--radius);font-size:1rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+
+.btn-primary{background:var(--primary);color:var(--white)}
+
+.btn-primary:hover{background:var(--primary-dark);transform:translateY(-1px);box-shadow:var(--shadow)}
+
+.btn-primary:disabled{background:#aecbfa;cursor:not-allowed;transform:none}
+
+.btn-success{background:var(--success);color:var(--white)}
+
+.btn-success:hover{background:#2d9249}
+
+.btn-danger{background:var(--danger);color:var(--white)}
+
+.btn-danger:hover{background:#d33426}
+
+.btn-outline{background:var(--white);color:var(--primary);border:2px solid var(--primary)}
+
+.btn-outline:hover{background:var(--primary-light)}
+
+.btn-sm{padding:8px 16px;font-size:.85rem;border-radius:6px}
+
+.btn-block{width:100%}
+
+
+
+/* ===== Exam Page ===== */
+
+.exam-header{position:sticky;top:0;z-index:100;background:var(--white);border-bottom:2px solid var(--primary);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+
+.exam-header .exam-title{font-size:1.1rem;font-weight:700;color:var(--primary)}
+
+.exam-header .timer{display:flex;align-items:center;gap:8px;font-size:1.2rem;font-weight:700;padding:6px 16px;border-radius:20px;background:var(--primary-light);color:var(--primary)}
+
+.exam-header .timer.warning{background:#fce8e6;color:var(--danger);animation:pulse 1s infinite}
+
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+
+.exam-header .paper-badge{background:var(--primary);color:var(--white);padding:4px 14px;border-radius:12px;font-size:.85rem;font-weight:600}
+
+
+
+.exam-body{display:flex;max-width:1200px;margin:0 auto;min-height:calc(100vh - 60px)}
+
+
+
+/* Sidebar */
+
+.sidebar{width:220px;flex-shrink:0;background:var(--white);border-right:1px solid var(--gray-border);padding:16px;position:sticky;top:60px;height:calc(100vh - 60px);overflow-y:auto}
+
+.sidebar h3{font-size:.9rem;color:var(--gray-dark);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--gray-border)}
+
+.sidebar .section-label{font-size:.8rem;color:var(--gray-dark);margin:12px 0 6px;font-weight:600}
+
+.nav-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+
+.nav-item{width:100%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:6px;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .15s;background:var(--gray);color:var(--gray-dark);border:2px solid transparent}
+
+.nav-item.answered{background:#e6f4ea;color:var(--success);border-color:var(--success)}
+
+.nav-item:hover{transform:scale(1.1);border-color:var(--primary)}
+
+.nav-item.current{border-color:var(--primary);box-shadow:0 0 0 2px rgba(26,115,232,.3)}
+
+
+
+/* Main content */
+
+.exam-main{flex:1;padding:24px;max-width:800px}
+
+.section-block{background:var(--white);border-radius:var(--radius);padding:24px;margin-bottom:20px;box-shadow:var(--shadow)}
+
+.section-block h2{font-size:1.15rem;color:var(--primary);margin-bottom:4px;padding-bottom:10px;border-bottom:2px solid var(--primary-light)}
+
+.section-block .section-info{font-size:.85rem;color:var(--gray-dark);margin-bottom:16px}
+
+.question{padding:20px 0;border-bottom:1px solid var(--gray-border)}
+
+.question:last-child{border-bottom:none}
+
+.question .q-header{display:flex;align-items:flex-start;gap:8px;margin-bottom:12px}
+
+.question .q-num{background:var(--primary);color:var(--white);min-width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0;margin-top:2px}
+
+.question .q-text{font-size:.95rem;flex:1}
+
+.question .q-score{font-size:.8rem;color:var(--gray-dark);background:var(--gray);padding:2px 8px;border-radius:10px;flex-shrink:0;margin-top:2px}
+
+
+
+/* Options */
+
+.options{margin-left:36px}
+
+.option{display:flex;align-items:flex-start;gap:10px;padding:8px 12px;margin-bottom:6px;border-radius:6px;cursor:pointer;transition:background .15s}
+
+.option:hover{background:var(--primary-light)}
+
+.option input{margin-top:4px;accent-color:var(--primary);width:18px;height:18px;flex-shrink:0}
+
+.option label{cursor:pointer;font-size:.95rem;flex:1}
+
+
+
+/* Judge buttons */
+
+.judge-options{margin-left:36px;display:flex;gap:16px}
+
+.judge-btn{flex:1;max-width:200px;padding:16px;border:2px solid var(--gray-border);border-radius:var(--radius);background:var(--white);cursor:pointer;text-align:center;font-size:1.5rem;font-weight:700;transition:all .2s;font-family:inherit}
+
+.judge-btn:hover{border-color:var(--primary);background:var(--primary-light)}
+
+.judge-btn.selected{border-color:var(--primary);background:var(--primary);color:var(--white)}
+
+.judge-btn .judge-label{font-size:.8rem;color:var(--gray-dark);margin-top:4px}
+
+.judge-btn.selected .judge-label{color:rgba(255,255,255,.8)}
+
+
+
+/* Fill blank & Essay */
+
+.answer-input{margin-left:36px}
+
+.answer-input input,.answer-input textarea{width:100%;padding:10px 14px;border:2px solid var(--gray-border);border-radius:6px;font-size:.95rem;font-family:inherit;transition:border-color .2s;resize:vertical}
+
+.answer-input input:focus,.answer-input textarea:focus{outline:none;border-color:var(--primary)}
+
+.answer-input textarea{min-height:200px}
+
+
+
+/* Submit area */
+
+.submit-area{text-align:center;padding:32px 0}
+
+.submit-area .btn{font-size:1.1rem;padding:14px 48px}
+
+
+
+/* Exam table in essay questions */
+
+.exam-table{border-collapse:collapse;width:100%;margin:10px 0 16px;font-size:.95rem;border:1px solid var(--gray-border);border-radius:6px;overflow:hidden}
+
+.exam-table th{background:#e8f0fe;padding:8px 12px;text-align:center;font-weight:600;border:1px solid var(--gray-border);color:#1a73e8}
+
+.exam-table td{padding:8px 12px;text-align:center;border:1px solid var(--gray-border);background:var(--white)}
+
+
+
+/* Overlay / Modal */
+
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:200;padding:20px}
+
+.modal{background:var(--white);border-radius:12px;padding:32px;max-width:440px;width:100%;box-shadow:0 16px 48px rgba(0,0,0,.2);text-align:center}
+
+.modal h3{font-size:1.2rem;margin-bottom:12px}
+
+.modal p{color:var(--gray-dark);margin-bottom:24px}
+
+.modal .btn-group{display:flex;gap:12px;justify-content:center}
+
+
+
+/* Submitted page */
+
+.submitted-page{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+
+.submitted-card{background:var(--white);border-radius:16px;padding:48px 40px;text-align:center;max-width:460px;width:100%;box-shadow:var(--shadow)}
+
+.submitted-card .icon{font-size:4rem;margin-bottom:16px}
+
+.submitted-card h2{color:var(--success);margin-bottom:8px}
+
+.submitted-card p{color:var(--gray-dark)}
+
+
+
+/* ===== Admin Page ===== */
+
+.admin-page{max-width:1100px;margin:0 auto;padding:24px}
+
+.admin-page h1{font-size:1.5rem;color:var(--primary);margin-bottom:24px}
+
+.admin-login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+
+.admin-login-card{background:var(--white);border-radius:16px;padding:48px 40px;max-width:400px;width:100%;text-align:center;box-shadow:var(--shadow)}
+
+.admin-login-card h2{color:var(--primary);margin-bottom:24px}
+
+.admin-login-card input{width:100%;padding:12px 16px;border:2px solid var(--gray-border);border-radius:var(--radius);font-size:1rem;margin-bottom:16px;font-family:inherit}
+
+.admin-login-card input:focus{outline:none;border-color:var(--primary)}
+
+
+
+/* Dashboard table */
+
+.dashboard{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+
+.dashboard-header{padding:20px 24px;border-bottom:1px solid var(--gray-border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+
+.dashboard-header h2{font-size:1.1rem;color:var(--primary)}
+
+.stats{display:flex;gap:16px;flex-wrap:wrap}
+
+.stat-item{padding:6px 16px;background:var(--primary-light);border-radius:20px;font-size:.85rem;color:var(--primary);font-weight:600}
+
+table{width:100%;border-collapse:collapse}
+
+th{background:var(--primary-light);color:var(--primary);font-weight:600;text-align:left;padding:12px 16px;font-size:.85rem;white-space:nowrap}
+
+td{padding:12px 16px;border-bottom:1px solid var(--gray-border);font-size:.9rem}
+
+tr:hover td{background:#f8f9fa}
+
+.badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:.75rem;font-weight:600}
+
+.badge-pending{background:#fef7e0;color:#b45309}
+
+.badge-graded{background:#e6f4ea;color:var(--success)}
+
+.badge-a{background:#e8f0fe;color:var(--primary)}
+
+.badge-b{background:#fce8e6;color:var(--danger)}
+
+
+
+/* Grading view */
+
+.grading-view{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px}
+
+.grading-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid var(--gray-border)}
+
+.grading-header h2{font-size:1.2rem;color:var(--primary)}
+
+.grading-section{margin-bottom:32px}
+
+.grading-section h3{font-size:1rem;color:var(--primary);padding:10px 16px;background:var(--primary-light);border-radius:6px;margin-bottom:16px}
+
+.grade-q{padding:16px;border:1px solid var(--gray-border);border-radius:6px;margin-bottom:16px}
+
+.grade-q .gq-header{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+
+.grade-q .gq-num{background:var(--primary);color:var(--white);min-width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0}
+
+.grade-q .gq-text{font-size:.9rem;flex:1}
+
+.grade-q .gq-score-badge{font-size:.8rem;background:var(--gray);padding:2px 10px;border-radius:10px;color:var(--gray-dark)}
+
+.grade-q .gq-student-answer{margin:8px 0 0 36px;padding:10px 14px;background:#f8f9fa;border-radius:6px;font-size:.9rem;white-space:pre-wrap}
+
+.grade-q .gq-ref-answer{margin:8px 0 0 36px;padding:10px 14px;background:#e6f4ea;border-radius:6px;font-size:.85rem;color:#137333;white-space:pre-wrap}
+
+.grade-q .gq-ref-label{margin:4px 0 0 36px;font-size:.75rem;color:var(--gray-dark);font-weight:600}
+
+.grade-q .gq-rubric{margin:4px 0 0 36px;font-size:.8rem;color:var(--gray-dark);font-style:italic}
+
+.auto-correct{color:var(--success);font-weight:600}
+
+.auto-wrong{color:var(--danger);font-weight:600}
+
+.auto-unanswered{color:var(--gray-dark);font-weight:600}
+
+.auto-score-display{margin-left:36px;padding:6px 12px;background:#f8f9fa;border-radius:4px;font-size:.9rem;margin-bottom:8px}
+
+
+
+.grade-input-row{margin:12px 0 0 36px;display:flex;align-items:center;gap:10px}
+
+.grade-input-row label{font-weight:600;font-size:.9rem;white-space:nowrap}
+
+.grade-input-row input{width:80px;padding:8px 12px;border:2px solid var(--gray-border);border-radius:6px;font-size:.95rem;text-align:center;font-family:inherit}
+
+.grade-input-row input:focus{outline:none;border-color:var(--primary)}
+
+.grade-input-row .max-hint{font-size:.8rem;color:var(--gray-dark)}
+
+.grade-actions{display:flex;gap:12px;margin-top:24px;padding-top:16px;border-top:1px solid var(--gray-border);justify-content:space-between;flex-wrap:wrap}
+
+
+
+/* Score notification link */
+
+.score-link-area{margin-top:16px;padding:16px;background:var(--primary-light);border-radius:8px;text-align:center}
+
+.score-link-area p{font-size:.9rem;margin-bottom:8px}
+
+.score-link-area code{word-break:break-all;font-size:.85rem;background:var(--white);padding:8px 12px;border-radius:4px;display:block;margin-top:8px}
+
+
+
+/* Score view page */
+
+.score-page{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(135deg,#1a73e8 0%,#4285f4 100%)}
+
+.score-card{background:var(--white);border-radius:16px;padding:40px;max-width:500px;width:100%;box-shadow:0 8px 32px rgba(0,0,0,.15)}
+
+.score-card h2{text-align:center;color:var(--primary);margin-bottom:24px}
+
+.score-card .total-score{text-align:center;font-size:3rem;font-weight:700;color:var(--primary);margin-bottom:24px}
+
+.score-card .total-score small{font-size:1rem;color:var(--gray-dark)}
+
+.score-card table{width:100%;border-collapse:collapse;margin-bottom:20px}
+
+.score-card th,.score-card td{padding:8px 12px;border-bottom:1px solid var(--gray-border);font-size:.9rem;text-align:left}
+
+.score-card th{color:var(--gray-dark);font-weight:600}
+
+.score-card .student-info{text-align:center;margin-bottom:16px;color:var(--gray-dark);font-size:.9rem}
+
+
+
+/* Responsive */
+
+@media(max-width:768px){
+
+  .exam-body{flex-direction:column}
+
+  .sidebar{width:100%;position:relative;height:auto;top:auto;border-right:none;border-bottom:1px solid var(--gray-border);max-height:180px}
+
+  .sidebar .nav-grid{grid-template-columns:repeat(10,1fr)}
+
+  .nav-item{font-size:.7rem}
+
+  .exam-main{padding:16px}
+
+  .section-block{padding:16px}
+
+  .exam-header{padding:8px 12px;flex-wrap:wrap;gap:8px}
+
+  .exam-header .exam-title{font-size:.95rem}
+
+  .exam-header .timer{font-size:1rem;padding:4px 12px}
+
+  .options{margin-left:0}
+
+  .judge-options{margin-left:0}
+
+  .answer-input{margin-left:0}
+
+  .admin-page{padding:12px}
+
+  th,td{padding:8px 10px;font-size:.8rem}
+
+  .landing-card{padding:32px 24px}
+
+  .grade-input-row{margin-left:0}
+
+  .grade-q .gq-student-answer,.grade-q .gq-ref-answer,.grade-q .gq-ref-label,.grade-q .gq-rubric{margin-left:0}
+
+}
+
+
+
+/* ===== Toast Notification ===== */
+
+.toast-container{position:fixed;top:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px}
+
+.toast{padding:14px 20px;border-radius:8px;color:var(--white);font-size:.9rem;font-weight:600;box-shadow:0 4px 16px rgba(0,0,0,.15);animation:toastIn .3s ease;display:flex;align-items:center;gap:10px;max-width:360px}
+
+.toast-success{background:var(--success)}
+
+.toast-info{background:var(--primary)}
+
+.toast-warning{background:#e8710a}
+
+.toast-out{animation:toastOut .3s ease forwards}
+
+@keyframes toastIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+
+@keyframes toastOut{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(40px)}}
+
+
+
+/* ===== Polling Indicator ===== */
+
+.polling-indicator{display:flex;align-items:center;gap:6px;font-size:.8rem;color:var(--gray-dark);padding:4px 12px;border-radius:20px;background:var(--gray)}
+
+.polling-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+.polling-dot.active{background:var(--success);animation:pollPulse 1.5s infinite}
+
+.polling-dot.inactive{background:#bbb;animation:none}
+
+@keyframes pollPulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(52,168,83,.4)}50%{opacity:.7;box-shadow:0 0 0 6px rgba(52,168,83,0)}}
+
+
+
+/* ===== New Row Highlight ===== */
+
+@keyframes rowFlash{0%,100%{background:var(--white)}25%{background:#e6f4ea}50%{background:var(--white)}75%{background:#e6f4ea}}
+
+.row-new{animation:rowFlash 1.5s ease 2}
+
+</style>
+
+<!-- Supabase JS SDK -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+// ==================== SUPABASE CONFIG ====================
+
+const SUPABASE_URL = 'https://jllpnbzsmyrvnxijheis.supabase.co';
+
+const SUPABASE_KEY = 'sb_publishable_oD9afg3SoIl5FNCPEq-nqg_ztnzN8FJ';
+
+const _sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+console.log('Supabase client initialized');
+
+</script>
+
+</head>
+
+<body>
+
+
+
+<!-- ===== Landing Page ===== -->
+
+<div id="landing-page" class="landing">
+
+  <div class="landing-card">
+
+    <h1>品质文化能力测评</h1>
+
+    <p class="subtitle">请输入信息后开始考试，系统将随机分配试卷</p>
+
+    <div class="form-group">
+
+      <label for="student-id">工号</label>
+
+      <input type="text" id="student-id" placeholder="请输入工号" autocomplete="off" oninput="updateAttemptNotice()">
+
+    </div>
+
+    <div class="form-group">
+
+      <label for="student-name">姓名</label>
+
+      <input type="text" id="student-name" placeholder="请输入姓名" autocomplete="off">
+
+    </div>
+
+    <div class="form-group">
+
+      <label for="student-dept">基地部门</label>
+
+      <input type="text" id="student-dept" placeholder="请输入基地部门" autocomplete="off">
+
+    </div>
+
+    <button class="btn btn-primary btn-block" id="start-btn" onclick="startExam()">开始考试</button>
+
+    <div id="attempt-notice" style="margin-top:12px;font-size:.85rem;color:var(--gray-dark);text-align:center"></div>
+
+  </div>
+
+</div>
+
+
+
+<!-- ===== Exam Page ===== -->
+
+<div id="exam-page" class="hidden">
+
+  <div class="exam-header">
+
+    <div>
+
+      <div class="exam-title">品质文化与客户文化管理行为准则测评</div>
+
+    </div>
+
+    <span class="paper-badge" id="paper-badge">A卷</span>
+
+    <div class="timer" id="timer">60:00</div>
+
+  </div>
+
+  <div class="exam-body">
+
+    <div class="sidebar">
+
+      <h3>答题卡</h3>
+
+      <div id="nav-container"></div>
+
+    </div>
+
+    <div class="exam-main" id="exam-main"></div>
+
+  </div>
+
+</div>
+
+
+
+<!-- ===== Submitted Page ===== -->
+
+<div id="submitted-page" class="hidden submitted-page">
+
+  <div class="submitted-card">
+
+    <div class="icon">&#9989;</div>
+
+    <h2>试卷已提交</h2>
+
+    <p id="submitted-msg">单选/多选/判断总得分：<strong id="submitted-score"></strong> 分（满分 45 分）</p>
+
+    <p id="attempt-count-msg" style="margin-top:6px;font-size:.9rem;color:var(--gray-dark)"></p>
+
+    <p style="color:var(--gray-dark);margin-top:8px;font-size:.9rem">主观题（填空+论述）需管理员批改后公布总分</p>
+
+    <div style="margin-top:24px;background:var(--gray);border-radius:var(--radius);padding:16px;text-align:left">
+
+      <p style="font-size:.85rem;color:var(--success);margin-bottom:8px;font-weight:600">&#9989; 答卷已自动同步到云端，管理员可实时查看并批改</p>
+
+      <textarea id="submission-code" readonly style="width:100%;height:80px;border:1px solid var(--gray-border);border-radius:6px;padding:10px;font-size:.75rem;font-family:monospace;resize:none;background:#f8f9fa"></textarea>
+
+      <button class="btn btn-primary btn-sm btn-block" style="margin-top:8px" onclick="copySubmissionCode()">&#128203; 复制答卷编码</button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<!-- ===== Admin Login ===== -->
+
+<div id="admin-login" class="hidden admin-login">
+
+  <div class="admin-login-card">
+
+    <h2>管理员登录</h2>
+
+    <input type="password" id="admin-pwd" placeholder="请输入管理密码" autocomplete="off">
+
+    <button class="btn btn-primary btn-block" onclick="adminLogin()">进入管理</button>
+
+  </div>
+
+</div>
+
+
+
+<!-- ===== Admin Dashboard ===== -->
+
+<div id="admin-dashboard" class="hidden admin-page">
+
+  <h1>考试管理后台</h1>
+
+  <div class="dashboard">
+
+    <div class="dashboard-header">
+
+      <h2>提交记录</h2>
+
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+
+        <div class="polling-indicator" id="polling-indicator">
+
+          <div class="polling-dot inactive" id="polling-dot"></div>
+
+          <span id="polling-text">已暂停</span>
+
+        </div>
+
+        <button class="btn btn-primary btn-sm" onclick="syncFromCloud()">&#9729;&#65039; 手动同步</button>
+
+        <button class="btn btn-outline btn-sm" onclick="showImportModal()">&#128229; 导入答卷编码</button>
+
+        <button class="btn btn-outline btn-sm" onclick="exportSubmissionJSON()">&#128190; 导出数据</button>
+
+      </div>
+
+      <div class="stats" id="stats-area"></div>
+
+    </div>
+
+    <div style="overflow-x:auto">
+
+      <table>
+
+        <thead><tr><th>序号</th><th>工号</th><th>姓名</th><th>基地部门</th><th>试卷</th><th>提交时间</th><th>单选/多选/判断得分</th><th>主观题状态</th><th>总分</th><th>操作</th></tr></thead>
+
+        <tbody id="submissions-tbody"></tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<!-- ===== Grading View ===== -->
+
+<div id="grading-view" class="hidden admin-page">
+
+  <div class="grading-view">
+
+    <div class="grading-header">
+
+      <h2 id="grading-title">批改试卷</h2>
+
+      <button class="btn btn-outline btn-sm" onclick="backToDashboard()">返回列表</button>
+
+    </div>
+
+    <div id="grading-content"></div>
+
+  </div>
+
+</div>
+
+
+
+<!-- ===== Score View Page ===== -->
+
+<div id="score-page" class="hidden score-page">
+
+  <div class="score-card" id="score-card"></div>
+
+</div>
+
+
+
+<!-- ===== Import Modal ===== -->
+
+<div id="import-modal" class="overlay hidden">
+
+  <div class="modal" style="max-width:600px">
+
+    <h3>&#128229; 批量导入答卷</h3>
+
+    <p>将考生发送的答卷编码粘贴到下方（支持多条，每行一条）</p>
+
+    <textarea id="import-textarea" rows="8" placeholder="VHST-EXAM-v1|sub_xxx|张三|品质部|A|2026/5/26 20:00:00|42|eyJhbn...&#10;VHST-EXAM-v1|sub_yyy|李四|生产部|B|2026/5/26 20:05:00|38|eyJhbn..." style="width:100%;border:2px solid var(--gray-border);border-radius:var(--radius);padding:12px;font-size:.8rem;font-family:monospace;resize:vertical"></textarea>
+
+    <div class="btn-group" style="margin-top:16px">
+
+      <button class="btn btn-primary" onclick="doImportSubmissions()">确认导入</button>
+
+      <button class="btn btn-outline" onclick="closeImportModal()">取消</button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<!-- ===== Confirm Modal ===== -->
+
+<div id="confirm-modal" class="overlay hidden">
+
+  <div class="modal">
+
+    <h3 id="modal-title">确认提交？</h3>
+
+    <p id="modal-msg">提交后将无法修改答案</p>
+
+    <div class="btn-group">
+
+      <button class="btn btn-outline" onclick="closeModal()">取消</button>
+
+      <button class="btn btn-primary" id="modal-confirm" onclick="confirmSubmit()">确认提交</button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<!-- ===== Toast Container ===== -->
+
+<div class="toast-container" id="toast-container"></div>
+
+
+
+<script>
+
+// ==================== EXAM DATA ====================
+
+const EXAM_DATA = {
+  "A": {
+    "title": "品质文化与客户文化管理行为准则测评试卷（A卷）",
+    "time": 60,
+    "total": 100,
+    "sections": [
+      {
+        "id": "single",
+        "name": "单选题",
+        "info": "每题2分，共20题，共40分",
+        "questions": [
+          {
+            "id": "A1",
+            "text": "公司质量方针是（ ）",
+            "score": 2,
+            "options": [
+              "品质第一、准时交付、让客户更满意",
+              "产量第一、快速交付、让客户更满意",
+              "成本第一、按时交付、让客户满意",
+              "安全第一、准时交付、让客户满意"
+            ],
+            "answer": "A"
+          },
+          {
+            "id": "A2",
+            "text": "品质文化中的\"三不原则\"是指（ ）",
+            "score": 2,
+            "options": [
+              "不设计、不生产、不检验",
+              "不接收、不制造、不流出",
+              "不采购、不加工、不出货",
+              "不隐瞒、不推诿、不放过"
+            ],
+            "answer": "B"
+          },
+          {
+            "id": "A3",
+            "text": "在客户文化管理行为准则中，\"质量优先\"的提倡行为是（ ）",
+            "score": 2,
+            "options": [
+              "因材料价格贵，替换成非客户要求的品牌",
+              "标准导入完全遵守客户标准要求",
+              "客户需求闭环有要求时做，没要求时不做",
+              "产品设变后先生产再补文件"
+            ],
+            "answer": "B"
+          },
+          {
+            "id": "A4",
+            "text": "以下哪项属于客户文化管理行为准则中的\"反对行为\"？（ ）",
+            "score": 2,
+            "options": [
+              "严格按照客户标准进行材料验证",
+              "客户需求闭环按时完成并主动反馈",
+              "接收项目传递的不正确、不完整的信息，直接下发使用",
+              "定期组织客户满意度复盘"
+            ],
+            "answer": "C"
+          },
+          {
+            "id": "A5",
+            "text": "当生产进度与产品质量发生冲突时，按照公司品质文化，管理者应优先（ ）",
+            "score": 2,
+            "options": [
+              "保证进度，事后向客户解释",
+              "保证质量，同时优化流程解决交付问题",
+              "由生产部自行决定",
+              "向上级请示后再做决定"
+            ],
+            "answer": "B"
+          },
+          {
+            "id": "A6",
+            "text": "产品设变后，正确的做法是（ ）",
+            "score": 2,
+            "options": [
+              "先上机生产，边生产边更新SIP",
+              "先更新SIP、SOP并培训员工，评审通过后再安排生产",
+              "凭经验生产，等客户反馈再改",
+              "只更新图纸，不通知现场"
+            ],
+            "answer": "B"
+          },
+          {
+            "id": "A7",
+            "text": "在客户文化管理行为准则中，\"持续改善\"的提倡行为是（ ）",
+            "score": 2,
+            "options": [
+              "客户需求闭环有要求时做，没有要求时不做",
+              "客户需求闭环的问题按时效闭环，以客户满意度为导向",
+              "只处理重大客户投诉，小问题不管",
+              "客户不催就不处理"
+            ],
+            "answer": "B"
+          },
+          {
+            "id": "A8",
+            "text": "以下哪项是\"三不原则\"中\"不制造不良品\"的正确做法？（ ）",
+            "score": 2,
+            "options": [
+              "发现参数异常，继续生产，等质检来挑",
+              "生产过程中发现异常，立即停机调整",
+              "将不良品混入合格品中",
+              "依赖下工序挑选"
+            ],
+            "answer": "B"
+          },
+          {
+            "id": "A9",
+            "text": "以下哪项属于品质文化中的\"反对行为\"？（ ）",
+            "score": 2,
+            "options": [
+              "定期组织质量复盘",
+              "\"品质就是质量人的事，出了问题找品质部\"",
+              "主动上报质量隐患",
+              "按标准作业指导书操作"
+            ],
+            "answer": "B"
+          },
+          {
+            "id": "A10",
+            "text": "某基地为满足紧急交付，对存在轻微外观瑕疵的产品直接放行，未走任何审批流程。这主要违背了（ ）",
+            "score": 2,
+            "options": [
+              "质量优先的反对行为（以进度牺牲质量）",
+              "一次做对的提倡行为",
+              "三不原则中的\"不接受\"",
+              "持续改善的提倡行为"
+            ],
+            "answer": "A"
+          },
+          {
+            "id": "A11",
+            "text": "以下哪项是\"一次做对\"的提倡行为？（ ）",
+            "score": 2,
+            "options": [
+              "指导书经过自检、评审、复检后再投入使用",
+              "先生产再补检验报告",
+              "跳过验证步骤，事后再补",
+              "凭经验操作，不依赖文件"
+            ],
+            "answer": "A"
+          },
+          {
+            "id": "A12",
+            "text": "\"下道工序是上道工序的顾客\"这一理念的核心是（ ）",
+            "score": 2,
+            "options": [
+              "下道工序有权要求上道工序赔偿",
+              "上道工序必须为下道工序提供合格产品，不传递不良品",
+              "品质部是最终顾客",
+              "下道工序可以随意退回产品"
+            ],
+            "answer": "B"
+          },
+          {
+            "id": "A13",
+            "text": "在客户文化管理行为准则中，\"一次做对\"的提倡行为包括（ ）",
+            "score": 2,
+            "options": [
+              "标准指导书未经过评审就直接下发使用",
+              "指导书制作按照流程自检、评审、复检",
+              "因时间紧，跳过部分验证",
+              "边使用边修改指导书"
+            ],
+            "answer": "B"
+          },
+          {
+            "id": "A14",
+            "text": "某员工在生产过程中发现设备参数与SOP不一致，正确的做法是（ ）",
+            "score": 2,
+            "options": [
+              "继续生产，反正参数差不多",
+              "立即停止并上报班组长或QC",
+              "自己凭经验调整参数继续干",
+              "等产品做完再报告"
+            ],
+            "answer": "B"
+          },
+          {
+            "id": "A15",
+            "text": "以下哪项体现了\"以客户为中心\"的正确做法？（ ）",
+            "score": 2,
+            "options": [
+              "为了满足交期，放行不合格品",
+              "主动与客户沟通技术标准，确保完全理解客户要求",
+              "客户要求太严，私自放宽标准",
+              "客户不催就不处理问题"
+            ],
+            "answer": "B"
+          },
+          {
+            "id": "A16",
+            "text": "管理者在品质文化推行中的首要责任是（ ）",
+            "score": 2,
+            "options": [
+              "亲自检验每一件产品",
+              "以身作则践行质量准则并推动全员参与",
+              "只审批质量文件",
+              "将质量工作全部委托给品质部"
+            ],
+            "answer": "B"
+          },
+          {
+            "id": "A17",
+            "text": "当发现不合格品时，品质人员首先应做的是（ ）",
+            "score": 2,
+            "options": [
+              "立即报废不合格品",
+              "隔离不合格品并标识",
+              "通知生产人员停止生产",
+              "上报领导"
+            ],
+            "answer": "B"
+          },
+          {
+            "id": "A18",
+            "text": "现场质量管理中，应以（ ）为主，其他为辅。",
+            "score": 2,
+            "options": [
+              "自检",
+              "互检",
+              "专检",
+              "全检"
+            ],
+            "answer": "A"
+          },
+          {
+            "id": "A19",
+            "text": "质量管理的核心是（ ）",
+            "score": 2,
+            "options": [
+              "检验把关",
+              "预防为主",
+              "处罚从严",
+              "客户满意"
+            ],
+            "answer": "B"
+          },
+          {
+            "id": "A20",
+            "text": "产品质量好坏主要决定于（ ）的工作质量和控制能力。",
+            "score": 2,
+            "options": [
+              "质量部门",
+              "生产部门",
+              "采购部门",
+              "人事部门"
+            ],
+            "answer": "B"
+          }
+        ]
+      },
+      {
+        "id": "multi",
+        "name": "多选题",
+        "info": "每题3分，共10题，共30分（多选、少选、错选均不得分）",
+        "questions": [
+          {
+            "id": "A21",
+            "text": "品质文化中的\"四大提倡行为\"包括（ ）",
+            "score": 3,
+            "options": [
+              "质量优先",
+              "成本控制",
+              "一次做对",
+              "三不原则",
+              "持续改善"
+            ],
+            "answer": "ACDE"
+          },
+          {
+            "id": "A22",
+            "text": "客户文化管理行为准则中，\"质量优先\"的提倡行为包括（ ）",
+            "score": 3,
+            "options": [
+              "标准导入完全遵守客户标准要求",
+              "因价格原因替换非客户指定材料",
+              "在项目品质验证阶段，质量目标大于进度要求",
+              "将质量作为全员参与、全要素策划的核心"
+            ],
+            "answer": "ACD"
+          },
+          {
+            "id": "A23",
+            "text": "客户文化管理行为准则中，\"三不原则\"的提倡行为包括（ ）",
+            "score": 3,
+            "options": [
+              "不接收项目传递的不正确、不完整的信息",
+              "不将未评审的标准指导书下发给设计部门",
+              "接收所有信息，不管是否正确",
+              "将未经确认的指导书直接给作业部门使用"
+            ],
+            "answer": "AB"
+          },
+          {
+            "id": "A24",
+            "text": "客户文化管理行为准则中，\"持续改善\"的反对行为包括（ ）",
+            "score": 3,
+            "options": [
+              "客户需求闭环按时效完成",
+              "客户需求闭环有要求时做，没有要求时放置一边",
+              "定期组织客户满意度复盘",
+              "只响应客户明确提出的要求，不主动挖掘潜在需求"
+            ],
+            "answer": "BD"
+          },
+          {
+            "id": "A25",
+            "text": "以下哪些属于\"三不原则\"的正面行为？（ ）",
+            "score": 3,
+            "options": [
+              "拒绝接收不良来料",
+              "生产过程中自检发现缺陷并隔离",
+              "将未标识的异常品混入合格品",
+              "发现上工序不良，主动反馈并拒收"
+            ],
+            "answer": "ABD"
+          },
+          {
+            "id": "A26",
+            "text": "以下哪些属于\"一次做对\"的反对行为？（ ）",
+            "score": 3,
+            "options": [
+              "设变后未更新SIP便上机生产",
+              "标准指导书未经评审就投入使用",
+              "首件检验合格后再批量生产",
+              "产品设变后先更新文件再安排生产"
+            ],
+            "answer": "AB"
+          },
+          {
+            "id": "A27",
+            "text": "以下哪些属于管理者在品质文化建设中的\"领导作用\"？（ ）",
+            "score": 3,
+            "options": [
+              "每天早会强调质量要求",
+              "发现员工违规时只处罚不指导",
+              "亲自参与质量巡查并现场纠偏",
+              "将质量问题全部推给品质部"
+            ],
+            "answer": "AC"
+          },
+          {
+            "id": "A28",
+            "text": "以下哪些属于\"三不原则\"中\"不流出不良品\"的正面行为？（ ）",
+            "score": 3,
+            "options": [
+              "全检工序发现缺陷后立即隔离并上报",
+              "不合格品经返工后重新检验，合格才放行",
+              "为了交付，让步接收未经客户批准",
+              "包装前再次核对产品与标签一致性"
+            ],
+            "answer": "ABD"
+          },
+          {
+            "id": "A29",
+            "text": "在客户文化管理行为准则中，\"一次做对\"的反对行为包括（ ）",
+            "score": 3,
+            "options": [
+              "标准指导书未经过自检、评审、复检就投入使用",
+              "一边使用指导书一边修改完善",
+              "指导书制作完成后严格评审再下发",
+              "因时间紧，跳过验证步骤"
+            ],
+            "answer": "ABD"
+          },
+          {
+            "id": "A30",
+            "text": "以下哪些做法符合\"以客户为中心\"的理念？（ ）",
+            "score": 3,
+            "options": [
+              "主动与客户对齐技术标准",
+              "客户要求不明确时，主动沟通确认",
+              "客户投诉后，只安抚情绪不解决问题",
+              "定期收集客户反馈并推动内部改进"
+            ],
+            "answer": "ABD"
+          }
+        ]
+      },
+      {
+        "id": "judge",
+        "name": "判断题",
+        "info": "每题1.5分，共20题，共30分",
+        "questions": [
+          {
+            "id": "A31",
+            "text": "员工发现设备参数与SOP不一致，但为了不影响产量，继续生产。",
+            "score": 1.5,
+            "answer": "×"
+          },
+          {
+            "id": "A32",
+            "text": "操作员自检发现产品有轻微划痕，不影响使用，于是直接放入合格品箱中。",
+            "score": 1.5,
+            "answer": "×"
+          },
+          {
+            "id": "A33",
+            "text": "班组长在早会上只强调今日产量目标，完全不提质量要求。",
+            "score": 1.5,
+            "answer": "×"
+          },
+          {
+            "id": "A34",
+            "text": "某员工发现上工序来料有缺陷，主动拒收并通知上工序整改。",
+            "score": 1.5,
+            "answer": "√"
+          },
+          {
+            "id": "A35",
+            "text": "产品设变后，技术员先更新SIP、SOP，组织培训后再安排生产。",
+            "score": 1.5,
+            "answer": "√"
+          },
+          {
+            "id": "A36",
+            "text": "为满足客户紧急交付，对存在轻微外观瑕疵的产品直接放行，未申请特采。",
+            "score": 1.5,
+            "answer": "×"
+          },
+          {
+            "id": "A37",
+            "text": "管理者每天确认点检表并签字，但从不实际检查点检项目。",
+            "score": 1.5,
+            "answer": "×"
+          },
+          {
+            "id": "A38",
+            "text": "员工主动上报自己操作失误造成的质量隐患。",
+            "score": 1.5,
+            "answer": "√"
+          },
+          {
+            "id": "A39",
+            "text": "质量问题是质量部门的事情，与生产员工无关。",
+            "score": 1.5,
+            "answer": "×"
+          },
+          {
+            "id": "A40",
+            "text": "下道工序发现上工序不良品，主动退回并反馈，要求上工序整改。",
+            "score": 1.5,
+            "answer": "√"
+          },
+          {
+            "id": "A41",
+            "text": "为了节约成本，采购员将客户指定的材料替换为价格更低的非指定品牌。",
+            "score": 1.5,
+            "answer": "×"
+          },
+          {
+            "id": "A42",
+            "text": "定期组织质量复盘会，分析根本原因并跟踪改进措施。",
+            "score": 1.5,
+            "answer": "√"
+          },
+          {
+            "id": "A43",
+            "text": "班组长发现员工违规操作，只简单处罚，不指导正确方法。",
+            "score": 1.5,
+            "answer": "×"
+          },
+          {
+            "id": "A44",
+            "text": "客户投诉后，品质人员只填写记录，不做根因分析和整改。",
+            "score": 1.5,
+            "answer": "×"
+          },
+          {
+            "id": "A45",
+            "text": "全检工序发现产品有堵孔缺陷，立即隔离并上报，不让不良品流出。",
+            "score": 1.5,
+            "answer": "√"
+          },
+          {
+            "id": "A46",
+            "text": "操作员认为自己的经验比SOP更管用，擅自调整工艺参数。",
+            "score": 1.5,
+            "answer": "×"
+          },
+          {
+            "id": "A47",
+            "text": "检验员在检验记录上填写合格，但实际并未检测该批次产品。",
+            "score": 1.5,
+            "answer": "×"
+          },
+          {
+            "id": "A48",
+            "text": "管理者每月参加一次现场质量巡查，现场纠正员工不规范操作。",
+            "score": 1.5,
+            "answer": "√"
+          },
+          {
+            "id": "A49",
+            "text": "供应商来料不合格，IQC判定退货，但采购员以\"生产急用\"为由强制入库。",
+            "score": 1.5,
+            "answer": "×"
+          },
+          {
+            "id": "A50",
+            "text": "持续改善要求：客户需求闭环有要求时做，没有要求时放置一边。",
+            "score": 1.5,
+            "answer": "×"
+          }
+        ]
+      }
+    ]
+  },
+  "B": {
+    "title": "品质文化与客户文化管理行为准则测评试卷（B卷）",
+    "time": 60,
+    "total": 100,
+    "sections": [
+      {
+        "id": "single",
+        "name": "单选题",
+        "info": "每题2分，共20题，共40分",
+        "questions": [
+          {
+            "id": "B1",
+            "text": "品质文化中的\"质量优先\"要求管理者在质量与进度冲突时（ ）",
+            "score": 2,
+            "options": [
+              "优先保证进度，事后补救",
+              "优先保证质量，同时优化流程解决交付",
+              "由客户决定",
+              "由生产部自行权衡"
+            ],
+            "answer": "B"
+          },
+          {
+            "id": "B2",
+            "text": "客户文化管理行为准则中，\"三不原则\"包括（ ）",
+            "score": 2,
+            "options": [
+              "不接收、不制造、不流出",
+              "不采购、不加工、不出货",
+              "不设计、不生产、不检验",
+              "不隐瞒、不推诿、不放过"
+            ],
+            "answer": "A"
+          },
+          {
+            "id": "B3",
+            "text": "以下哪项属于\"一次做对\"的反对行为？（ ）",
+            "score": 2,
+            "options": [
+              "指导书经过自检、评审、复检后使用",
+              "产品设变后先更新SIP再生产",
+              "标准指导书未经过评审就投入使用，边用边改",
+              "首件检验合格后再批量生产"
+            ],
+            "answer": "C"
+          },
+          {
+            "id": "B4",
+            "text": "某班组长发现员工未按SOP操作，正确的做法是（ ）",
+            "score": 2,
+            "options": [
+              "当场处罚，扣绩效",
+              "立即制止，了解原因，指导正确方法",
+              "当作没看见，避免矛盾",
+              "上报品质部处理"
+            ],
+            "answer": "B"
+          },
+          {
+            "id": "B5",
+            "text": "以下哪项是客户文化管理行为准则中\"持续改善\"的反对行为？（ ）",
+            "score": 2,
+            "options": [
+              "客户需求闭环按时效完成",
+              "定期组织客户满意度复盘",
+              "客户需求闭环有要求时做，没要求时不做",
+              "主动挖掘客户潜在需求"
+            ],
+            "answer": "C"
+          },
+          {
+            "id": "B6",
+            "text": "发现来料存在批量尺寸超差，IQC正确的做法是（ ）",
+            "score": 2,
+            "options": [
+              "直接退货并通知采购",
+              "为了生产进度，放行使用",
+              "先入库，等生产反馈再处理",
+              "自己修改检验记录"
+            ],
+            "answer": "A"
+          },
+          {
+            "id": "B7",
+            "text": "\"下道工序是上道工序的顾客\"意味着（ ）",
+            "score": 2,
+            "options": [
+              "上道工序可以向下道工序索赔",
+              "上道工序必须为下道工序提供合格产品",
+              "下道工序有权随意退回产品",
+              "品质部负责所有工序的质量"
+            ],
+            "answer": "B"
+          },
+          {
+            "id": "B8",
+            "text": "以下哪项体现了\"三不原则\"中的\"不制造不良品\"？（ ）",
+            "score": 2,
+            "options": [
+              "生产前确认设备参数和原材料合格",
+              "发现不良品后偷偷混入合格品",
+              "依赖后工序挑选不良品",
+              "为了产量，忽略过程控制"
+            ],
+            "answer": "A"
+          },
+          {
+            "id": "B9",
+            "text": "产品质量特性是在哪个过程中形成的？（ ）",
+            "score": 2,
+            "options": [
+              "检验过程",
+              "采购过程",
+              "产品实现过程",
+              "销售过程"
+            ],
+            "answer": "C"
+          },
+          {
+            "id": "B10",
+            "text": "某员工发现上工序流下的产品有漏焊，他应该（ ）",
+            "score": 2,
+            "options": [
+              "继续加工，反正不关我的事",
+              "自己补焊一下",
+              "主动拒收并立即反馈给班组长",
+              "放到一边，等别人发现"
+            ],
+            "answer": "C"
+          },
+          {
+            "id": "B11",
+            "text": "在客户文化管理行为准则中，\"质量优先\"的提倡行为包括（ ）",
+            "score": 2,
+            "options": [
+              "因材料价格贵替换非客户指定品牌",
+              "标准导入完全遵守客户标准要求",
+              "为赶交付跳过检验环节",
+              "只关注产量，忽视质量"
+            ],
+            "answer": "B"
+          },
+          {
+            "id": "B12",
+            "text": "以下哪项属于品质文化中的\"形式主义\"？（ ）",
+            "score": 2,
+            "options": [
+              "点检表签字但实际未检查",
+              "开班前认真点检设备",
+              "发现异常及时上报",
+              "主动参加质量培训"
+            ],
+            "answer": "A"
+          },
+          {
+            "id": "B13",
+            "text": "当检验仪器出现故障时，正确的做法是（ ）",
+            "score": 2,
+            "options": [
+              "继续使用，凭经验判断",
+              "停止使用，标识并通知校准维修",
+              "自行拆修",
+              "换一台未校准的仪器继续用"
+            ],
+            "answer": "B"
+          },
+          {
+            "id": "B14",
+            "text": "产品设变后，技术员只更新了图纸，未更新SIP就通知生产。这违背了（ ）",
+            "score": 2,
+            "options": [
+              "质量优先",
+              "一次做对",
+              "三不原则",
+              "持续改善"
+            ],
+            "answer": "B"
+          },
+          {
+            "id": "B15",
+            "text": "质量管理的核心是（ ）",
+            "score": 2,
+            "options": [
+              "检验把关",
+              "预防为主",
+              "处罚从严",
+              "客户投诉处理"
+            ],
+            "answer": "B"
+          },
+          {
+            "id": "B16",
+            "text": "以下哪项是\"以客户为中心\"的正确表现？（ ）",
+            "score": 2,
+            "options": [
+              "客户要求太严，私自放宽标准",
+              "客户投诉后只安抚情绪",
+              "主动与客户确认技术标准，避免理解偏差",
+              "客户不催就不处理问题"
+            ],
+            "answer": "C"
+          },
+          {
+            "id": "B17",
+            "text": "现场质量管理中，互检的主要作用是（ ）",
+            "score": 2,
+            "options": [
+              "替代自检",
+              "下道工序监督上道工序，防止不良品传递",
+              "替代专检",
+              "仅用于新员工培训"
+            ],
+            "answer": "B"
+          },
+          {
+            "id": "B18",
+            "text": "出现批量不合格时，正确的处理步骤是（ ）",
+            "score": 2,
+            "options": [
+              "先完成生产，再处理不合格品",
+              "立即停止生产，隔离不良品，分析原因整改",
+              "只记录，不处理",
+              "把责任推给供应商"
+            ],
+            "answer": "B"
+          },
+          {
+            "id": "B19",
+            "text": "管理者在品质文化建设中，以下哪项是错误的？（ ）",
+            "score": 2,
+            "options": [
+              "每天早会强调质量要求",
+              "亲自参与质量巡查",
+              "将质量问题全部推给品质部",
+              "表彰质量改善优秀员工"
+            ],
+            "answer": "C"
+          },
+          {
+            "id": "B20",
+            "text": "以下哪项是\"三不原则\"中\"不流出不良品\"的正确做法？（ ）",
+            "score": 2,
+            "options": [
+              "全检发现缺陷，隔离并上报",
+              "不良品返工后未经检验直接放行",
+              "为了交付，放行不合格品",
+              "将不良品混入合格品出货"
+            ],
+            "answer": "A"
+          }
+        ]
+      },
+      {
+        "id": "multi",
+        "name": "多选题",
+        "info": "每题3分，共10题，共30分（多选、少选、错选均不得分）",
+        "questions": [
+          {
+            "id": "B21",
+            "text": "品质文化的四大提倡行为包括（ ）",
+            "score": 3,
+            "options": [
+              "质量优先",
+              "一次做对",
+              "三不原则",
+              "持续改善",
+              "成本控制"
+            ],
+            "answer": "ABCD"
+          },
+          {
+            "id": "B22",
+            "text": "客户文化管理行为准则中，\"三不原则\"的反对行为包括（ ）",
+            "score": 3,
+            "options": [
+              "接收项目传递的不正确、不完整的信息",
+              "将未评审的标准指导书下发给设计部门",
+              "不接收任何未经确认的信息",
+              "严格按客户要求传递信息"
+            ],
+            "answer": "AB"
+          },
+          {
+            "id": "B23",
+            "text": "以下哪些属于\"一次做对\"的提倡行为？（ ）",
+            "score": 3,
+            "options": [
+              "产品设变后先更新SIP、SOP再生产",
+              "指导书制作后组织评审再下发",
+              "边生产边修改标准文件",
+              "首件检验合格后再批量生产"
+            ],
+            "answer": "ABD"
+          },
+          {
+            "id": "B24",
+            "text": "以下哪些属于\"质量优先\"的反对行为？（ ）",
+            "score": 3,
+            "options": [
+              "因价格原因替换非客户指定材料",
+              "为赶交付对不良品放行",
+              "项目品质验证阶段质量目标优先于进度",
+              "标准化作业确保参数受控"
+            ],
+            "answer": "AB"
+          },
+          {
+            "id": "B25",
+            "text": "以下哪些行为体现了员工的品质责任？（ ）",
+            "score": 3,
+            "options": [
+              "发现来料不良，拒收并反馈",
+              "生产过程中自检并记录",
+              "发现上工序不良，主动退回",
+              "认为质量是品质部的事，与自己无关"
+            ],
+            "answer": "ABC"
+          },
+          {
+            "id": "B26",
+            "text": "以下哪些属于管理者应避免的行为？（ ）",
+            "score": 3,
+            "options": [
+              "只强调产量，不关注质量",
+              "带头遵守SOP",
+              "发现问题只处罚不指导",
+              "定期参加质量巡查"
+            ],
+            "answer": "AC"
+          },
+          {
+            "id": "B27",
+            "text": "以下哪些是\"持续改善\"的正面行为？（ ）",
+            "score": 3,
+            "options": [
+              "每月组织质量复盘会",
+              "将改善成果固化为新标准",
+              "客户没有要求就不做复盘",
+              "用数据驱动PDCA循环"
+            ],
+            "answer": "ABD"
+          },
+          {
+            "id": "B28",
+            "text": "在客户文化管理行为准则中，\"持续改善\"的提倡行为包括（ ）",
+            "score": 3,
+            "options": [
+              "客户需求闭环的问题按时效闭环",
+              "以客户满意度为导向",
+              "有要求时做，没要求时不做",
+              "主动挖掘客户潜在需求"
+            ],
+            "answer": "ABD"
+          },
+          {
+            "id": "B29",
+            "text": "以下哪些做法符合\"三不原则\"？（ ）",
+            "score": 3,
+            "options": [
+              "拒绝接收不良来料",
+              "自检发现缺陷立即隔离",
+              "将不良品混入合格品",
+              "全检拦截不良品，不让其流出"
+            ],
+            "answer": "ABD"
+          },
+          {
+            "id": "B30",
+            "text": "以下哪些属于\"一次做对\"的反对行为？（ ）",
+            "score": 3,
+            "options": [
+              "设变后未更新文件就生产",
+              "标准指导书未经评审直接使用",
+              "首件检验合格后再生产",
+              "因时间紧跳过验证步骤"
+            ],
+            "answer": "ABD"
+          }
+        ]
+      },
+      {
+        "id": "judge",
+        "name": "判断题",
+        "info": "每题1.5分，共20题，共30分",
+        "questions": [
+          {
+            "id": "B31",
+            "text": "为了完成产量，操作员可以适当忽略自检。",
+            "score": 1.5,
+            "answer": "×"
+          },
+          {
+            "id": "B32",
+            "text": "发现上工序来料不良，本工序应主动拒收并反馈。",
+            "score": 1.5,
+            "answer": "√"
+          },
+          {
+            "id": "B33",
+            "text": "班组长在早会上只讲质量案例，不提产量目标，是正确的。",
+            "score": 1.5,
+            "answer": "×"
+          },
+          {
+            "id": "B34",
+            "text": "产品设变后，必须先更新文件、培训员工，再安排生产。",
+            "score": 1.5,
+            "answer": "√"
+          },
+          {
+            "id": "B35",
+            "text": "检验员发现不良品后，为了不影响交付，偷偷修改记录。",
+            "score": 1.5,
+            "answer": "×"
+          },
+          {
+            "id": "B36",
+            "text": "管理者每周一次现场质量巡查，并记录问题整改。",
+            "score": 1.5,
+            "answer": "√"
+          },
+          {
+            "id": "B37",
+            "text": "操作员认为SOP太繁琐，凭经验操作效率更高。",
+            "score": 1.5,
+            "answer": "×"
+          },
+          {
+            "id": "B38",
+            "text": "员工主动上报自己造成的质量隐患，应予以肯定。",
+            "score": 1.5,
+            "answer": "√"
+          },
+          {
+            "id": "B39",
+            "text": "质量问题是生产部门的事，与仓库、采购无关。",
+            "score": 1.5,
+            "answer": "×"
+          },
+          {
+            "id": "B40",
+            "text": "供应商来料不合格，采购员以\"生产急用\"为由强制入库。",
+            "score": 1.5,
+            "answer": "×"
+          },
+          {
+            "id": "B41",
+            "text": "定期组织质量复盘，分析根因并跟踪改进。",
+            "score": 1.5,
+            "answer": "√"
+          },
+          {
+            "id": "B42",
+            "text": "班组长发现员工违规，只罚款不指导正确方法。",
+            "score": 1.5,
+            "answer": "×"
+          },
+          {
+            "id": "B43",
+            "text": "客户投诉后，品质部应快速响应，分析原因并整改。",
+            "score": 1.5,
+            "answer": "√"
+          },
+          {
+            "id": "B44",
+            "text": "全检工序发现缺陷，立即隔离并上报，不让不良品流出。",
+            "score": 1.5,
+            "answer": "√"
+          },
+          {
+            "id": "B45",
+            "text": "操作员可以自行调整工艺参数，只要产品尺寸合格。",
+            "score": 1.5,
+            "answer": "×"
+          },
+          {
+            "id": "B46",
+            "text": "检验记录可以事后补填，只要数据正确。",
+            "score": 1.5,
+            "answer": "×"
+          },
+          {
+            "id": "B47",
+            "text": "让步接收必须经过客户批准，不能擅自放行。",
+            "score": 1.5,
+            "answer": "√"
+          },
+          {
+            "id": "B48",
+            "text": "管理者将质量工作全部委托给品质部，自己只关注产量。",
+            "score": 1.5,
+            "answer": "×"
+          },
+          {
+            "id": "B49",
+            "text": "下道工序发现上工序不良，应主动退回并反馈。",
+            "score": 1.5,
+            "answer": "√"
+          },
+          {
+            "id": "B50",
+            "text": "持续改善只要做了就行，不需要跟踪效果。",
+            "score": 1.5,
+            "answer": "×"
+          }
+        ]
+      }
+    ]
+  },
+  "C": {
+    "title": "品质文化与客户文化管理行为准则测评试卷（C卷）",
+    "time": 60,
+    "total": 100,
+    "sections": [
+      {
+        "id": "single",
+        "name": "单选题",
+        "info": "每题2分，共20题，共40分",
+        "questions": [
+          {
+            "id": "C1",
+            "text": "公司质量方针中，\"准时交付\"的前提是（ ）",
+            "score": 2,
+            "options": [
+              "品质第一",
+              "成本最低",
+              "产量最高",
+              "设备最先进"
+            ],
+            "answer": "A"
+          },
+          {
+            "id": "C2",
+            "text": "客户文化管理行为准则中，\"一次做对\"要求（ ）",
+            "score": 2,
+            "options": [
+              "出了问题再补救",
+              "首次操作即符合标准，从源头预防",
+              "依赖检验发现缺陷",
+              "允许一定比例的返工"
+            ],
+            "answer": "B"
+          },
+          {
+            "id": "C3",
+            "text": "以下哪项属于\"三不原则\"的正面行为？（ ）",
+            "score": 2,
+            "options": [
+              "接收不合格原材料",
+              "生产过程中自检发现缺陷，立即隔离",
+              "将不良品混入合格品",
+              "依赖后工序发现不良"
+            ],
+            "answer": "B"
+          },
+          {
+            "id": "C4",
+            "text": "某员工发现设备参数异常，但为了不影响产量，继续生产。这种行为违背了（ ）",
+            "score": 2,
+            "options": [
+              "质量优先",
+              "一次做对",
+              "三不原则",
+              "持续改善"
+            ],
+            "answer": "A"
+          },
+          {
+            "id": "C5",
+            "text": "以下哪项是客户文化管理行为准则中\"质量优先\"的反对行为？（ ）",
+            "score": 2,
+            "options": [
+              "严格按照客户标准检验",
+              "因材料价格贵，替换非客户指定品牌",
+              "项目验证阶段质量目标优先",
+              "全员参与质量改进"
+            ],
+            "answer": "B"
+          },
+          {
+            "id": "C6",
+            "text": "现场质量管理中，自检的主要责任人是（ ）",
+            "score": 2,
+            "options": [
+              "品质检验员",
+              "操作员本人",
+              "班组长",
+              "设备工程师"
+            ],
+            "answer": "B"
+          },
+          {
+            "id": "C7",
+            "text": "产品设变后，正确的流程是（ ）",
+            "score": 2,
+            "options": [
+              "先生产，再补文件",
+              "先更新文件、培训、评审，再生产",
+              "只通知班组长，不用更新文件",
+              "等客户确认后再决定"
+            ],
+            "answer": "B"
+          },
+          {
+            "id": "C8",
+            "text": "以下哪项是\"一次做对\"的反对行为？（ ）",
+            "score": 2,
+            "options": [
+              "指导书经过评审后使用",
+              "首件检验合格后再生产",
+              "标准指导书未经评审，边用边改",
+              "设变后先更新SIP"
+            ],
+            "answer": "C"
+          },
+          {
+            "id": "C9",
+            "text": "质量是（ ）出来的，不是检验出来的。",
+            "score": 2,
+            "options": [
+              "设计",
+              "生产",
+              "检验",
+              "投诉"
+            ],
+            "answer": "B"
+          },
+          {
+            "id": "C10",
+            "text": "某班组长连续多日在点检表上签字，但实际未检查。这属于（ ）",
+            "score": 2,
+            "options": [
+              "质量优先的提倡行为",
+              "一次做对的提倡行为",
+              "形式主义，违背一次做对",
+              "持续改善的提倡行为"
+            ],
+            "answer": "C"
+          },
+          {
+            "id": "C11",
+            "text": "客户文化管理行为准则中，\"持续改善\"要求（ ）",
+            "score": 2,
+            "options": [
+              "客户需求闭环按时效完成，以客户满意度为导向",
+              "只在客户投诉时改进",
+              "有要求时做，没要求时不做",
+              "只改进重大问题"
+            ],
+            "answer": "A"
+          },
+          {
+            "id": "C12",
+            "text": "发现上工序来料不良，正确的做法是（ ）",
+            "score": 2,
+            "options": [
+              "接收并使用，避免影响进度",
+              "拒收并反馈，要求上工序整改",
+              "自己返修后使用",
+              "隐瞒不报"
+            ],
+            "answer": "B"
+          },
+          {
+            "id": "C13",
+            "text": "以下哪项属于\"三不原则\"中的\"不流出不良品\"？（ ）",
+            "score": 2,
+            "options": [
+              "全检发现缺陷，立即隔离",
+              "不良品返工后未经检验直接放行",
+              "为了交付，放行不合格品",
+              "将不良品混入合格品"
+            ],
+            "answer": "A"
+          },
+          {
+            "id": "C14",
+            "text": "管理者在品质文化中的角色是（ ）",
+            "score": 2,
+            "options": [
+              "技术专家",
+              "文化引领者，以身作则",
+              "处罚执行者",
+              "旁观者"
+            ],
+            "answer": "B"
+          },
+          {
+            "id": "C15",
+            "text": "以下哪项是\"以客户为中心\"的错误做法？（ ）",
+            "score": 2,
+            "options": [
+              "主动沟通确认客户要求",
+              "客户投诉后快速响应",
+              "为了满足交期，放行不合格品",
+              "定期收集客户反馈"
+            ],
+            "answer": "C"
+          },
+          {
+            "id": "C16",
+            "text": "生产过程中，发现工艺参数偏离SOP，正确的做法是（ ）",
+            "score": 2,
+            "options": [
+              "继续生产，反正产品看起来没问题",
+              "立即停机，调整参数至标准范围",
+              "记录参数，事后修改SOP",
+              "忽略，等质检发现再说"
+            ],
+            "answer": "B"
+          },
+          {
+            "id": "C17",
+            "text": "以下哪项体现了\"质量优先\"？（ ）",
+            "score": 2,
+            "options": [
+              "为赶交付，对不良品放行",
+              "项目品质验证阶段，质量目标大于进度要求",
+              "因价格原因替换材料",
+              "减少检验频次以提高效率"
+            ],
+            "answer": "B"
+          },
+          {
+            "id": "C18",
+            "text": "检验记录的要求不包括（ ）",
+            "score": 2,
+            "options": [
+              "真实准确",
+              "可追溯",
+              "可以事后补写",
+              "签字确认"
+            ],
+            "answer": "C"
+          },
+          {
+            "id": "C19",
+            "text": "以下哪项是\"持续改善\"的正确做法？（ ）",
+            "score": 2,
+            "options": [
+              "只处理客户投诉",
+              "每月组织复盘，用数据驱动改进",
+              "问题发生后只处罚责任人",
+              "改善措施不跟踪效果"
+            ],
+            "answer": "B"
+          },
+          {
+            "id": "C20",
+            "text": "以下哪项属于\"反对行为\"？（ ）",
+            "score": 2,
+            "options": [
+              "主动上报质量隐患",
+              "定期组织质量复盘",
+              "\"品质就是质量人的事，出了问题找品质部\"",
+              "按标准作业指导书操作"
+            ],
+            "answer": "C"
+          }
+        ]
+      },
+      {
+        "id": "multi",
+        "name": "多选题",
+        "info": "每题3分，共10题，共30分（多选、少选、错选均不得分）",
+        "questions": [
+          {
+            "id": "C21",
+            "text": "品质文化的四大提倡行为包括（ ）",
+            "score": 3,
+            "options": [
+              "质量优先",
+              "一次做对",
+              "三不原则",
+              "持续改善",
+              "成本领先"
+            ],
+            "answer": "ABCD"
+          },
+          {
+            "id": "C22",
+            "text": "客户文化管理行为准则中，\"一次做对\"的反对行为包括（ ）",
+            "score": 3,
+            "options": [
+              "标准指导书未经评审就投入使用",
+              "一边使用一边修改指导书",
+              "设变后先更新文件再生产",
+              "因时间紧跳过验证步骤"
+            ],
+            "answer": "ABD"
+          },
+          {
+            "id": "C23",
+            "text": "以下哪些属于\"三不原则\"的正面行为？（ ）",
+            "score": 3,
+            "options": [
+              "拒绝接收不良来料",
+              "自检发现缺陷，立即隔离",
+              "将不良品混入合格品",
+              "全检拦截不良品"
+            ],
+            "answer": "ABD"
+          },
+          {
+            "id": "C24",
+            "text": "以下哪些属于管理者应具备的质量领导力行为？（ ）",
+            "score": 3,
+            "options": [
+              "每天早会强调质量",
+              "亲自参与质量巡查",
+              "只关注产量指标",
+              "表彰质量改善优秀员工"
+            ],
+            "answer": "ABD"
+          },
+          {
+            "id": "C25",
+            "text": "以下哪些属于\"质量优先\"的提倡行为？（ ）",
+            "score": 3,
+            "options": [
+              "标准导入完全遵守客户标准",
+              "项目品质验证阶段质量目标大于进度",
+              "因价格替换非客户指定材料",
+              "将质量作为全员参与的核心"
+            ],
+            "answer": "ABD"
+          },
+          {
+            "id": "C26",
+            "text": "以下哪些是\"一次做对\"的提倡行为？（ ）",
+            "score": 3,
+            "options": [
+              "指导书经过自检、评审、复检",
+              "设变后先更新文件再生产",
+              "首件检验合格后再批量生产",
+              "边生产边修改文件"
+            ],
+            "answer": "ABC"
+          },
+          {
+            "id": "C27",
+            "text": "以下哪些属于\"持续改善\"的反对行为？（ ）",
+            "score": 3,
+            "options": [
+              "客户需求闭环有要求时做，没要求时不做",
+              "定期组织复盘会",
+              "问题发生后不分析根因",
+              "将改善成果固化为新标准"
+            ],
+            "answer": "AC"
+          },
+          {
+            "id": "C28",
+            "text": "以下哪些做法符合\"三不原则\"中的\"不制造不良品\"？（ ）",
+            "score": 3,
+            "options": [
+              "生产前确认设备参数",
+              "首件检验合格后再生产",
+              "发现参数异常立即停机",
+              "依赖后工序挑选不良品"
+            ],
+            "answer": "ABC"
+          },
+          {
+            "id": "C29",
+            "text": "以下哪些属于\"以客户为中心\"的正确做法？（ ）",
+            "score": 3,
+            "options": [
+              "主动与客户确认技术标准",
+              "客户投诉后快速响应并整改",
+              "私自放宽客户标准以降低成本",
+              "定期收集客户反馈"
+            ],
+            "answer": "ABD"
+          },
+          {
+            "id": "C30",
+            "text": "以下哪些是品质文化中应避免的\"形式主义\"？（ ）",
+            "score": 3,
+            "options": [
+              "点检表签字但未检查",
+              "培训签到但员工不理解",
+              "稽查只查记录不查行为",
+              "主动上报质量隐患"
+            ],
+            "answer": "ABC"
+          }
+        ]
+      },
+      {
+        "id": "judge",
+        "name": "判断题",
+        "info": "每题1.5分，共20题，共30分",
+        "questions": [
+          {
+            "id": "C31",
+            "text": "操作员可以凭经验调整工艺参数，不需要遵守SOP。",
+            "score": 1.5,
+            "answer": "×"
+          },
+          {
+            "id": "C32",
+            "text": "发现上工序来料不良，应主动拒收并反馈。",
+            "score": 1.5,
+            "answer": "√"
+          },
+          {
+            "id": "C33",
+            "text": "班组长在早会上只强调质量，不提产量，是片面的。",
+            "score": 1.5,
+            "answer": "×"
+          },
+          {
+            "id": "C34",
+            "text": "产品设变后，必须先更新SIP、SOP，培训员工，才能生产。",
+            "score": 1.5,
+            "answer": "√"
+          },
+          {
+            "id": "C35",
+            "text": "检验员发现不良品后，为了不影响绩效，偷偷处理掉。",
+            "score": 1.5,
+            "answer": "×"
+          },
+          {
+            "id": "C36",
+            "text": "管理者每月至少一次现场质量巡查，并记录问题。",
+            "score": 1.5,
+            "answer": "√"
+          },
+          {
+            "id": "C37",
+            "text": "操作员认为自己的经验比SOP更可靠，可以按自己的方法做。",
+            "score": 1.5,
+            "answer": "×"
+          },
+          {
+            "id": "C38",
+            "text": "员工主动上报自己造成的质量事故，应予以保护而非处罚。",
+            "score": 1.5,
+            "answer": "√"
+          },
+          {
+            "id": "C39",
+            "text": "质量问题是品质部的事，生产员工只要完成产量就行。",
+            "score": 1.5,
+            "answer": "×"
+          },
+          {
+            "id": "C40",
+            "text": "供应商来料不合格，IQC判定退货，采购员不得强制入库。",
+            "score": 1.5,
+            "answer": "√"
+          },
+          {
+            "id": "C41",
+            "text": "每月组织质量复盘会，分析根因并跟踪改进。",
+            "score": 1.5,
+            "answer": "√"
+          },
+          {
+            "id": "C42",
+            "text": "班组长发现员工违规，应指导正确方法，而不是只罚款。",
+            "score": 1.5,
+            "answer": "√"
+          },
+          {
+            "id": "C43",
+            "text": "客户投诉后，只需安抚客户情绪，不需要内部整改。",
+            "score": 1.5,
+            "answer": "×"
+          },
+          {
+            "id": "C44",
+            "text": "全检工序发现缺陷，应立即隔离并上报，防止流出。",
+            "score": 1.5,
+            "answer": "√"
+          },
+          {
+            "id": "C45",
+            "text": "操作员可以擅自更改设备参数，只要产品尺寸合格。",
+            "score": 1.5,
+            "answer": "×"
+          },
+          {
+            "id": "C46",
+            "text": "检验记录可以事后补填，只要最终结果正确。",
+            "score": 1.5,
+            "answer": "×"
+          },
+          {
+            "id": "C47",
+            "text": "让步接收必须经客户批准，不能擅自放行。",
+            "score": 1.5,
+            "answer": "√"
+          },
+          {
+            "id": "C48",
+            "text": "管理者应将质量工作全部委托给品质部，自己专注生产。",
+            "score": 1.5,
+            "answer": "×"
+          },
+          {
+            "id": "C49",
+            "text": "下道工序发现上工序不良，应主动退回并帮助分析原因。",
+            "score": 1.5,
+            "answer": "√"
+          },
+          {
+            "id": "C50",
+            "text": "持续改善只关注重大质量问题，小问题可以忽略。",
+            "score": 1.5,
+            "answer": "×"
+          }
+        ]
+      }
+    ]
+  }
+};
+
+// ==================== SUPABASE API FUNCTIONS ====================
+
+async function cloudUpload(submission) {
+
+  try {
+
+    const {code, id, ...cleanSub} = submission;
+
+    const row = {
+
+      sub_id: id,
+
+      emp_id: cleanSub.empId || '',
+
+      name: cleanSub.name || '',
+
+      department: cleanSub.department || '',
+
+      paper_version: cleanSub.paperVersion || 'A',
+
+      answers: cleanSub.answers || {},
+
+      submit_time: cleanSub.submitTime || '',
+
+      auto_score: cleanSub.autoScore || 0,
+
+      manual_scores: cleanSub.manualScores || {},
+
+      total_score: cleanSub.totalScore || null,
+
+      graded: cleanSub.graded || false,
+
+      exam_id: 'exam2'
+
+    };
+
+    const {error} = await _sb.from('submissions').upsert(row, { onConflict: 'sub_id' });
+
+    if (!error) { console.log('Supabase upload OK'); return true; }
+
+    console.warn('Supabase upload error:', error.message);
+
+    return false;
+
+  } catch(e) {
+
+    console.warn('Supabase upload failed:', e);
+
+    return false;
+
+  }
+
+}
+
+
+
+async function cloudDownload() {
+
+  try {
+
+    const {data, error} = await _sb
+
+      .from('submissions')
+
+      .select('*')
+
+      .eq('exam_id', 'exam2')
+
+      .order('created_at', {ascending: false})
+
+      .limit(1000);
+
+    if (error) {
+
+      console.warn('Supabase query error:', error.message);
+
+      return null;
+
+    }
+
+    return (data || []).map(r => ({
+
+      id: r.sub_id,
+
+      empId: r.emp_id || '',
+
+      name: r.name || '',
+
+      department: r.department || '',
+
+      paperVersion: r.paper_version || 'A',
+
+      answers: r.answers || {},
+
+      submitTime: r.submit_time || '',
+
+      autoScore: r.auto_score || 0,
+
+      manualScores: r.manual_scores || {},
+
+      totalScore: r.total_score || null,
+
+      graded: r.graded || false
+
+    }));
+
+  } catch(e) {
+
+    console.warn('Supabase download failed:', e);
+
+    return null;
+
+  }
+
+}
+
+
+
+async function cloudSyncManualScores(submissionId, manualScores, graded) {
+
+  try {
+
+    const manualTotal = Object.values(manualScores).reduce((a,b) => a + (Number(b)||0), 0);
+
+    // First get the auto_score from existing record
+
+    const {data: existing, error: qError} = await _sb
+
+      .from('submissions')
+
+      .select('auto_score')
+
+      .eq('sub_id', submissionId)
+
+      .single();
+
+    if (qError) { console.warn('Query error:', qError.message); return false; }
+
+    const autoScore = (existing && existing.auto_score) || 0;
+
+    const {error} = await _sb
+
+      .from('submissions')
+
+      .update({
+
+        manual_scores: manualScores,
+
+        graded: graded,
+
+        total_score: graded ? (autoScore + manualTotal) : null
+
+      })
+
+      .eq('sub_id', submissionId);
+
+    if (!error) return true;
+
+    console.warn('Supabase sync error:', error.message);
+
+    return false;
+
+  } catch(e) {
+
+    console.warn('Supabase sync scores failed:', e);
+
+    return false;
+
+  }
+
+}
+
+
+
+// ==================== STATE ====================
+
+let currentView = 'landing';
+
+let studentInfo = {};
+
+let paperVersion = 'A';
+
+let answers = {};
+
+let timerInterval = null;
+
+let timeLeft = 0;
+
+let currentGradingId = null;
+
+let adminPollingInterval = null;
+
+let lastCloudSubCount = 0;
+
+
+
+// ==================== TOAST ====================
+
+function showToast(message, type = 'info', duration = 4000) {
+
+  const container = document.getElementById('toast-container');
+
+  const toast = document.createElement('div');
+
+  toast.className = 'toast toast-' + type;
+
+  toast.innerHTML = message;
+
+  container.appendChild(toast);
+
+  setTimeout(() => {
+
+    toast.classList.add('toast-out');
+
+    setTimeout(() => toast.remove(), 300);
+
+  }, duration);
+
+}
+
+
+
+// ==================== ADMIN POLLING ====================
+
+function startAdminPolling() {
+
+  stopAdminPolling();
+
+  // Update indicator
+
+  const dot = document.getElementById('polling-dot');
+
+  const text = document.getElementById('polling-text');
+
+  if (dot) dot.className = 'polling-dot active';
+
+  if (text) text.textContent = '实时监控中';
+
+
+
+  // Initial sync
+
+  pollCloudOnce();
+
+  // Poll every 10 seconds
+
+  adminPollingInterval = setInterval(pollCloudOnce, 10000);
+
+}
+
+
+
+function stopAdminPolling() {
+
+  if (adminPollingInterval) {
+
+    clearInterval(adminPollingInterval);
+
+    adminPollingInterval = null;
+
+  }
+
+  const dot = document.getElementById('polling-dot');
+
+  const text = document.getElementById('polling-text');
+
+  if (dot) dot.className = 'polling-dot inactive';
+
+  if (text) text.textContent = '已暂停';
+
+}
+
+
+
+async function pollCloudOnce() {
+
+  try {
+
+    const cloudSubs = await cloudDownload();
+
+    if (!cloudSubs) return;
+
+
+
+    let submissions = JSON.parse(localStorage.getItem('exam_submissions') || '[]');
+
+    const existingIds = new Set(submissions.map(s => s.id));
+
+    let newSubs = [];
+
+
+
+    cloudSubs.forEach(cs => {
+
+      if (!existingIds.has(cs.id)) {
+
+        if (!cs.manualScores) cs.manualScores = {};
+
+        if (cs.graded && cs.totalScore === undefined) {
+
+          cs.totalScore = cs.autoScore + Object.values(cs.manualScores).reduce((a,b)=>a+(Number(b)||0),0);
+
+        }
+
+        submissions.push(cs);
+
+        existingIds.add(cs.id);
+
+        newSubs.push(cs);
+
+      } else {
+
+        // Sync grading results from cloud
+
+        const local = submissions.find(s => s.id === cs.id);
+
+        if (cs.graded && cs.manualScores) {
+
+          local.manualScores = cs.manualScores;
+
+          local.graded = cs.graded;
+
+          local.totalScore = cs.totalScore || (cs.autoScore + Object.values(cs.manualScores).reduce((a,b)=>a+(Number(b)||0),0));
+
+        }
+
+      }
+
+    });
+
+
+
+    localStorage.setItem('exam_submissions', JSON.stringify(submissions));
+
+    lastCloudSubCount = cloudSubs.length;
+
+
+
+    if (newSubs.length > 0) {
+
+      renderDashboard();
+
+      const names = newSubs.map(s => s.name).join('、');
+
+      showToast('&#128276; 收到 ' + newSubs.length + ' 份新答卷：' + names, 'success', 5000);
+
+      // Browser notification
+
+      if (Notification.permission === 'granted') {
+
+        new Notification('新答卷提醒', { body: '收到 ' + newSubs.length + ' 份新答卷：' + names, icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">📝</text></svg>' });
+
+      }
+
+      // Highlight new rows
+
+      setTimeout(() => {
+
+        const tbody = document.getElementById('submissions-tbody');
+
+        if (!tbody) return;
+
+        const rows = tbody.querySelectorAll('tr');
+
+        // New submissions are at the end (most recent)
+
+        const startIdx = Math.max(0, rows.length - newSubs.length);
+
+        for (let i = startIdx; i < rows.length; i++) {
+
+          rows[i].classList.add('row-new');
+
+          setTimeout(() => rows[i].classList.remove('row-new'), 3000);
+
+        }
+
+      }, 50);
+
+    } else if (currentView === 'admin' && document.getElementById('admin-dashboard') && !document.getElementById('admin-dashboard').classList.contains('hidden')) {
+
+      // No new subs but we're on dashboard - check if grading status changed
+
+      renderDashboard();
+
+    }
+
+  } catch(e) {
+
+    console.warn('Polling error:', e);
+
+  }
+
+}
+
+
+
+// ==================== ROUTING ====================
+
+function route() {
+
+  const hash = location.hash.replace('#','');
+
+  hideAll();
+
+  if (hash === 'admin') {
+
+    showAdminLogin();
+
+  } else if (hash.startsWith('score=')) {
+
+    showScorePage(hash.replace('score=',''));
+
+  } else {
+
+    showLanding();
+
+  }
+
+}
+
+
+
+function hideAll() {
+
+  stopAdminPolling();
+
+  ['landing-page','exam-page','submitted-page','admin-login','admin-dashboard','grading-view','score-page'].forEach(id => {
+
+    document.getElementById(id).classList.add('hidden');
+
+  });
+
+}
+
+
+
+window.addEventListener('hashchange', route);
+
+
+
+// ==================== LANDING ====================
+
+function showLanding() {
+
+  currentView = 'landing';
+
+  document.getElementById('landing-page').classList.remove('hidden');
+
+}
+
+
+
+// ==================== ATTEMPT TRACKING (Cloud) ====================
+
+async function getAttemptCount(empId) {
+
+  try {
+
+    const { count, error } = await _sb.from('submissions')
+
+      .select('id', { count: 'exact', head: true })
+
+      .eq('emp_id', empId).eq('exam_id', 'exam2');
+
+    if (error) throw error;
+
+    return count || 0;
+
+  } catch(e) {
+
+    console.warn('Cloud attempt check failed, fallback to localStorage:', e);
+
+    const rec = JSON.parse(localStorage.getItem('examAttempt_' + empId) || '{"count":0}');
+
+    return rec.count || 0;
+
+  }
+
+}
+
+
+
+function recordAttempt(empId) {
+
+  // Keep localStorage as local cache
+
+  const key = 'examAttempt_' + empId;
+
+  const rec = JSON.parse(localStorage.getItem(key) || '{"count":0}');
+
+  rec.count = (rec.count || 0) + 1;
+
+  localStorage.setItem(key, JSON.stringify(rec));
+
+}
+
+
+
+let _attemptDebounce = null;
+
+function updateAttemptNotice() {
+
+  const empId = document.getElementById('student-id').value.trim();
+
+  const notice = document.getElementById('attempt-notice');
+
+  if (!empId) { notice.textContent = ''; return; }
+
+  const btn = document.getElementById('start-btn');
+
+  btn.disabled = false;
+
+  notice.textContent = '查询中...';
+
+  notice.style.color = 'var(--gray-dark)';
+
+  // Debounce cloud query
+
+  if (_attemptDebounce) clearTimeout(_attemptDebounce);
+
+  _attemptDebounce = setTimeout(async () => {
+
+    const count = await getAttemptCount(empId);
+
+    if (count === 0) {
+
+      notice.textContent = '';
+
+    } else if (count === 1) {
+
+      notice.textContent = '⚠️ 该工号已参加1次考试，还剩1次机会';
+
+      notice.style.color = '#e67e22';
+
+    } else {
+
+      notice.textContent = '❌ 该工号已用完2次考试机会，无法再次参加';
+
+      notice.style.color = '#e74c3c';
+
+      btn.disabled = true;
+
+    }
+
+  }, 400);
+
+}
+
+
+
+async function startExam() {
+
+  const empId = document.getElementById('student-id').value.trim();
+
+  const name = document.getElementById('student-name').value.trim();
+
+  const dept = document.getElementById('student-dept').value.trim();
+
+  if (!empId) { alert('请输入工号'); return; }
+
+  if (!name) { alert('请输入姓名'); return; }
+
+  if (!dept) { alert('请输入基地部门'); return; }
+
+
+
+  // Check attempt count from cloud
+
+  const btn = document.getElementById('start-btn');
+
+  btn.disabled = true;
+
+  btn.textContent = '检查中...';
+
+  const count = await getAttemptCount(empId);
+
+  if (count >= 2) {
+
+    alert('该工号已用完2次考试机会，无法再次参加考试。');
+
+    btn.disabled = false;
+
+    btn.textContent = '开始考试';
+
+    updateAttemptNotice();
+
+    return;
+
+  }
+
+  btn.textContent = '开始考试';
+
+
+
+  studentInfo = { empId, name, dept };
+
+  const paperKeys = ['A', 'B', 'C'];
+  paperVersion = paperKeys[Math.floor(Math.random() * paperKeys.length)];
+
+  answers = {};
+
+  timeLeft = 60 * 60;
+
+  currentView = 'exam';
+
+  hideAll();
+
+  document.getElementById('exam-page').classList.remove('hidden');
+
+  document.getElementById('paper-badge').textContent = paperVersion + '卷';
+
+  renderExam();
+
+  renderNav();
+
+  startTimer();
+
+}
+
+
+
+// ==================== EXAM RENDERING ====================
+
+function renderExam() {
+
+  const paper = EXAM_DATA[paperVersion];
+
+  const main = document.getElementById('exam-main');
+
+  let html = `<div style="text-align:center;margin-bottom:20px"><h2 style="color:var(--primary)">${paper.title}</h2><p style="color:var(--gray-dark);font-size:.9rem">考试时间60分钟 | 满分${paper.total}分</p><p style="font-size:.9rem">工号：${studentInfo.empId} | 考生：${studentInfo.name} | 基地部门：${studentInfo.department || studentInfo.dept}</p></div>`;
+
+  paper.sections.forEach(section => {
+
+    html += `<div class="section-block"><h2>${section.name}</h2><div class="section-info">${section.info}</div>`;
+
+    section.questions.forEach(q => {
+
+      html += renderQuestion(q, section.id);
+
+    });
+
+    html += '</div>';
+
+  });
+
+  html += `<div class="submit-area"><button class="btn btn-primary" onclick="showSubmitConfirm()">交卷</button></div>`;
+
+  main.innerHTML = html;
+
+}
+
+
+
+function renderQuestion(q, sectionId) {
+
+  let inner = '';
+
+  if (sectionId === 'single') {
+
+    inner = renderSingleChoice(q);
+
+  } else if (sectionId === 'multi') {
+
+    inner = renderMultiChoice(q);
+
+  } else if (sectionId === 'judge') {
+
+    inner = renderJudge(q);
+
+  } else if (sectionId === 'fill') {
+
+    inner = renderFill(q);
+
+  } else if (sectionId === 'essay') {
+
+    inner = renderEssay(q);
+
+  }
+
+  return `<div class="question" id="q-${q.id}"><div class="q-header"><span class="q-num">${q.id.replace(/^[AB]/,'')}</span><span class="q-text">${markdownToHtml(q.text)}</span><span class="q-score">${q.score}分</span></div>${inner}</div>`;
+
+}
+
+
+
+// Convert markdown-style tables in text to HTML tables
+
+function markdownToHtml(text) {
+
+  // Convert markdown table to HTML table
+
+  const lines = text.split('\n');
+
+  let result = [];
+
+  let inTable = false;
+
+  for (let i = 0; i < lines.length; i++) {
+
+    const line = lines[i].trim();
+
+    if (line.startsWith('|') && line.endsWith('|')) {
+
+      if (!inTable) {
+
+        inTable = true;
+
+        result.push('<table class="exam-table">');
+
+      }
+
+      // Skip separator row like |---|---|
+
+      if (/^\|[\s\-:|]+\|$/.test(line)) continue;
+
+      const cells = line.split('|').slice(1, -1).map(c => c.trim());
+
+      // First row = header
+
+      if (result[result.length - 1] === '<table class="exam-table">') {
+
+        result.push('<thead><tr>' + cells.map(c => '<th>' + c + '</th>').join('') + '</tr></thead><tbody>');
+
+      } else {
+
+        result.push('<tr>' + cells.map(c => '<td>' + c + '</td>').join('') + '</tr>');
+
+      }
+
+    } else {
+
+      if (inTable) {
+
+        result.push('</tbody></table>');
+
+        inTable = false;
+
+      }
+
+      result.push(lines[i]);
+
+    }
+
+  }
+
+  if (inTable) result.push('</tbody></table>');
+
+  return result.join('\n').replace(/\n/g, '<br>').replace(/<table class="exam-table">/g, '<table class="exam-table">').replace(/<\/table><br>/g, '</table>');
+
+}
+
+
+
+function renderSingleChoice(q) {
+
+  const letters = 'ABCD';
+
+  return `<div class="options">${q.options.map((opt,i) => `<div class="option" onclick="selectSingle('${q.id}','${letters[i]}')"><input type="radio" name="q_${q.id}" id="opt_${q.id}_${i}" value="${letters[i]}" ${answers[q.id]===letters[i]?'checked':''}><label for="opt_${q.id}_${i}">${letters[i]}. ${opt}</label></div>`).join('')}</div>`;
+
+}
+
+
+
+function renderMultiChoice(q) {
+
+  const letters = 'ABCD';
+
+  const sel = answers[q.id] || [];
+
+  return `<div class="options">${q.options.map((opt,i) => `<div class="option" onclick="toggleMulti('${q.id}','${letters[i]}')"><input type="checkbox" name="q_${q.id}" id="opt_${q.id}_${i}" value="${letters[i]}" ${sel.includes(letters[i])?'checked':''}><label for="opt_${q.id}_${i}">${letters[i]}. ${opt}</label></div>`).join('')}</div>`;
+
+}
+
+
+
+function renderJudge(q) {
+
+  const sel = answers[q.id] || '';
+
+  return `<div class="judge-options"><button type="button" class="judge-btn ${sel==='√'?'selected':''}" onclick="selectJudge('${q.id}','√')">&#10003;<div class="judge-label">正确</div></button><button type="button" class="judge-btn ${sel==='×'?'selected':''}" onclick="selectJudge('${q.id}','×')">&#10007;<div class="judge-label">错误</div></button></div>`;
+
+}
+
+
+
+function renderFill(q) {
+
+  return `<div class="answer-input"><input type="text" id="fill_${q.id}" placeholder="请输入答案" value="${answers[q.id]||''}" oninput="saveFill('${q.id}',this.value)"></div>`;
+
+}
+
+
+
+function renderEssay(q) {
+
+  if (q.subQuestions && q.subQuestions.length) {
+
+    let html = `<div style="margin:12px 0 8px;padding:10px;background:#fff8e1;border-radius:6px;border-left:4px solid #f9a825"><strong>请分别回答以下小题：</strong></div>`;
+
+    q.subQuestions.forEach((sq,i) => {
+
+      html += `<div style="margin-bottom:12px;padding:10px;background:var(--gray);border-radius:6px">
+
+        <div style="font-weight:600;margin-bottom:6px">${sq.label} ${sq.text} <span style="color:var(--primary);font-weight:700">（${sq.score}分）</span></div>
+
+        <div class="answer-input"><textarea id="essay_${sq.id}" placeholder="请输入${sq.label}的答案" oninput="saveEssay('${sq.id}',this.value)" style="min-height:80px">${answers[sq.id]||''}</textarea></div>
+
+      </div>`;
+
+    });
+
+    return html;
+
+  }
+
+  return `<div class="answer-input"><textarea id="essay_${q.id}" placeholder="请输入答案" oninput="saveEssay('${q.id}',this.value)">${answers[q.id]||''}</textarea></div>`;
+
+}
+
+
+
+// ==================== ANSWER HANDLERS ====================
+
+function selectSingle(qid, val) {
+
+  answers[qid] = val;
+
+  renderExam();
+
+  renderNav();
+
+  scrollToQuestion(qid);
+
+}
+
+
+
+function toggleMulti(qid, letter) {
+
+  if (!answers[qid]) answers[qid] = [];
+
+  const idx = answers[qid].indexOf(letter);
+
+  if (idx > -1) answers[qid].splice(idx,1);
+
+  else answers[qid].push(letter);
+
+  answers[qid].sort();
+
+  renderExam();
+
+  renderNav();
+
+  scrollToQuestion(qid);
+
+}
+
+
+
+function selectJudge(qid, val) {
+
+  answers[qid] = val;
+
+  renderExam();
+
+  renderNav();
+
+  scrollToQuestion(qid);
+
+}
+
+
+
+function saveFill(qid, val) {
+
+  answers[qid] = val;
+
+  renderNav();
+
+}
+
+
+
+function saveEssay(qid, val) {
+
+  answers[qid] = val;
+
+  renderNav();
+
+}
+
+
+
+function scrollToQuestion(qid) {
+
+  setTimeout(() => {
+
+    const el = document.getElementById('q-' + qid);
+
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+  }, 50);
+
+}
+
+
+
+// ==================== NAV SIDEBAR ====================
+
+function renderNav() {
+
+  const paper = EXAM_DATA[paperVersion];
+
+  let html = '';
+
+  paper.sections.forEach(section => {
+
+    html += `<div class="section-label">${section.name}</div><div class="nav-grid">`;
+
+    section.questions.forEach(q => {
+
+      const answered = isAnswered(q, section.id);
+
+      html += `<div class="nav-item ${answered?'answered':''}" onclick="scrollToQuestion('${q.id}')">${q.id.replace(/^[AB]/,'')}</div>`;
+
+    });
+
+    html += '</div>';
+
+  });
+
+  document.getElementById('nav-container').innerHTML = html;
+
+}
+
+
+
+function isAnswered(q, sectionId) {
+
+  const a = answers[q.id];
+
+  if (!a) return false;
+
+  if (sectionId === 'multi') return a.length > 0;
+
+  if (sectionId === 'fill' || sectionId === 'essay') return a.trim().length > 0;
+
+  return true;
+
+}
+
+
+
+// ==================== TIMER ====================
+
+function startTimer() {
+
+  if (timerInterval) clearInterval(timerInterval);
+
+  timerInterval = setInterval(() => {
+
+    timeLeft--;
+
+    if (timeLeft <= 0) {
+
+      clearInterval(timerInterval);
+
+      submitExam();
+
+      return;
+
+    }
+
+    const m = Math.floor(timeLeft / 60);
+
+    const s = timeLeft % 60;
+
+    const timerEl = document.getElementById('timer');
+
+    timerEl.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+
+    if (timeLeft <= 300) timerEl.classList.add('warning');
+
+    else timerEl.classList.remove('warning');
+
+  }, 1000);
+
+}
+
+
+
+// ==================== SUBMIT ====================
+
+function showSubmitConfirm() {
+
+  const paper = EXAM_DATA[paperVersion];
+
+  const totalQ = paper.sections.reduce((s,sec) => s + sec.questions.length, 0);
+
+  const answeredQ = paper.sections.reduce((s,sec) => s + sec.questions.filter(q => isAnswered(q, sec.id)).length, 0);
+
+  const unanswered = totalQ - answeredQ;
+
+  document.getElementById('modal-title').textContent = '确认交卷？';
+
+  document.getElementById('modal-msg').textContent = unanswered > 0 ? `还有 ${unanswered} 题未作答，确定要提交吗？` : '提交后将无法修改答案';
+
+  document.getElementById('confirm-modal').classList.remove('hidden');
+
+}
+
+
+
+function closeModal() {
+
+  document.getElementById('confirm-modal').classList.add('hidden');
+
+}
+
+
+
+function confirmSubmit() {
+
+  closeModal();
+
+  submitExam();
+
+}
+
+
+
+function submitExam() {
+
+  if (timerInterval) clearInterval(timerInterval);
+
+  const paper = EXAM_DATA[paperVersion];
+
+  let autoScore = 0;
+
+  // Auto-grade single, multi, judge
+
+  paper.sections.forEach(section => {
+
+    if (['single','multi','judge'].includes(section.id)) {
+
+      section.questions.forEach(q => {
+
+        const studentAnswer = answers[q.id];
+
+        let correct = false;
+
+        if (section.id === 'single') {
+
+          correct = studentAnswer === q.answer;
+
+        } else if (section.id === 'multi') {
+
+          const sa = (studentAnswer || []).sort().join('');
+
+          correct = sa === q.answer.split('').sort().join('');
+
+        } else if (section.id === 'judge') {
+
+          correct = studentAnswer === q.answer;
+
+        }
+
+        if (correct) autoScore += q.score;
+
+      });
+
+    }
+
+  });
+
+
+
+  const submission = {
+
+    id: 'sub_' + Date.now() + '_' + Math.random().toString(36).substr(2,6),
+
+    empId: studentInfo.empId,
+
+    name: studentInfo.name,
+
+    department: studentInfo.department || studentInfo.dept,
+
+    paperVersion,
+
+    answers: JSON.parse(JSON.stringify(answers)),
+
+    submitTime: new Date().toLocaleString('zh-CN'),
+
+    autoScore,
+
+    manualScores: {},
+
+    totalScore: null,
+
+    graded: false
+
+  };
+
+
+
+  let submissions = JSON.parse(localStorage.getItem('exam_submissions') || '[]');
+
+  submissions.push(submission);
+
+  localStorage.setItem('exam_submissions', JSON.stringify(submissions));
+
+
+
+  // Record attempt count
+
+  recordAttempt(studentInfo.empId);
+
+
+
+  // Generate submission code for admin import
+
+  const code = 'VHST-EXAM-v2|' + submission.id + '|' + submission.empId + '|' + submission.name + '|' + (submission.department||'') + '|' + submission.paperVersion + '|' + submission.submitTime + '|' + submission.autoScore + '|' + btoa(unescape(encodeURIComponent(JSON.stringify(submission.answers))));
+
+  submission.code = code;
+
+  localStorage.setItem('exam_submissions', JSON.stringify(submissions));
+
+
+
+  hideAll();
+
+  document.getElementById('submitted-page').classList.remove('hidden');
+
+  document.getElementById('submitted-score').textContent = submission.autoScore;
+
+  document.getElementById('submission-code').value = code;
+
+  // Show attempt info (use localStorage cache since cloud upload may be pending)
+
+  const attemptCount = JSON.parse(localStorage.getItem('examAttempt_' + studentInfo.empId) || '{"count":0}').count || 0;
+
+  const countMsg = document.getElementById('attempt-count-msg');
+
+  if (attemptCount >= 2) {
+
+    countMsg.textContent = '本次为第2次（共2次）考试机会，已全部使用完毕。';
+
+    countMsg.style.color = '#e74c3c';
+
+  } else {
+
+    countMsg.textContent = '本次为第1次（共2次）考试机会，还剩1次补考机会。';
+
+    countMsg.style.color = '#e67e22';
+
+  }
+
+  currentView = 'submitted';
+
+
+
+  // Auto copy to clipboard
+
+  copySubmissionCode();
+
+
+
+  // Auto upload to cloud (silent, non-blocking)
+
+  cloudUpload(submission).then(ok => {
+
+    if (ok) {
+
+      console.log('✅ 答卷已同步到云端');
+
+    } else {
+
+      console.warn('⚠️ 云端同步失败，请手动复制编码发给管理员');
+
+    }
+
+  });
+
+}
+
+
+
+function copySubmissionCode() {
+
+  const ta = document.getElementById('submission-code');
+
+  ta.select();
+
+  ta.setSelectionRange(0, 99999);
+
+  navigator.clipboard.writeText(ta.value).then(() => {
+
+    const btn = event ? event.target : null;
+
+    if (btn) { btn.textContent = '✅ 已复制到剪贴板'; setTimeout(() => { btn.textContent = '📋 复制答卷编码'; }, 2000); }
+
+  }).catch(() => {
+
+    document.execCommand('copy');
+
+  });
+
+}
+
+
+
+async function syncFromCloud() {
+
+  const btn = event ? event.target : null;
+
+  if (btn) btn.textContent = '⏳ 同步中...';
+
+  try {
+
+    const cloudSubs = await cloudDownload();
+
+    if (cloudSubs === null) {
+
+      alert('云端同步失败，请检查网络连接');
+
+      if (btn) btn.innerHTML = '&#9729;&#65039; 从云端同步';
+
+      return;
+
+    }
+
+    if (!cloudSubs.length) {
+
+      alert('云端暂无答卷数据');
+
+      if (btn) btn.innerHTML = '&#9729;&#65039; 从云端同步';
+
+      return;
+
+    }
+
+    let submissions = JSON.parse(localStorage.getItem('exam_submissions') || '[]');
+
+    const existingIds = new Set(submissions.map(s => s.id));
+
+    let imported = 0;
+
+    cloudSubs.forEach(cs => {
+
+      if (!existingIds.has(cs.id)) {
+
+        // Ensure required fields
+
+        if (!cs.manualScores) cs.manualScores = {};
+
+        if (!cs.totalScore && cs.graded) {
+
+          cs.totalScore = cs.autoScore + Object.values(cs.manualScores).reduce((a,b)=>a+(Number(b)||0),0);
+
+        }
+
+        submissions.push(cs);
+
+        existingIds.add(cs.id);
+
+        imported++;
+
+      } else {
+
+        // Update existing with cloud data (merge manualScores if graded)
+
+        const local = submissions.find(s => s.id === cs.id);
+
+        if (cs.graded && cs.manualScores) {
+
+          local.manualScores = cs.manualScores;
+
+          local.graded = cs.graded;
+
+          local.totalScore = cs.totalScore || (cs.autoScore + Object.values(cs.manualScores).reduce((a,b)=>a+(Number(b)||0),0));
+
+        }
+
+      }
+
+    });
+
+    localStorage.setItem('exam_submissions', JSON.stringify(submissions));
+
+    renderDashboard();
+
+    alert(`同步完成！云端共 ${cloudSubs.length} 条答卷，新增 ${imported} 条`);
+
+  } catch(e) {
+
+    alert('同步出错：' + e.message);
+
+  }
+
+  if (btn) btn.innerHTML = '&#9729;&#65039; 从云端同步';
+
+}
+
+
+
+function exportSubmissionJSON() {
+
+  const submissions = JSON.parse(localStorage.getItem('exam_submissions') || '[]');
+
+  if (!submissions.length) { alert('暂无答卷数据'); return; }
+
+  // Strip code field for export
+
+  const exportData = submissions.map(s => { const {code, ...rest} = s; return rest; });
+
+  const blob = new Blob([JSON.stringify(exportData, null, 2)], {type: 'application/json'});
+
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement('a'); a.href = url; a.download = '答卷数据_' + new Date().toLocaleDateString('zh-CN') + '.json'; a.click();
+
+  URL.revokeObjectURL(url);
+
+}
+
+
+
+function showImportModal() {
+
+  document.getElementById('import-modal').classList.remove('hidden');
+
+  document.getElementById('import-textarea').value = '';
+
+  document.getElementById('import-textarea').focus();
+
+}
+
+
+
+function closeImportModal() {
+
+  document.getElementById('import-modal').classList.add('hidden');
+
+}
+
+
+
+function doImportSubmissions() {
+
+  const text = document.getElementById('import-textarea').value.trim();
+
+  if (!text) { alert('请粘贴答卷编码'); return; }
+
+  const lines = text.split('\n').map(l => l.trim()).filter(l => l.startsWith('VHST-EXAM-v'));
+
+  if (!lines.length) { alert('未识别到有效的答卷编码，请检查格式'); return; }
+
+  let imported = 0, skipped = 0;
+
+  let submissions = JSON.parse(localStorage.getItem('exam_submissions') || '[]');
+
+  const existingIds = new Set(submissions.map(s => s.id));
+
+  lines.forEach(line => {
+
+    try {
+
+      const parts = line.split('|');
+
+      const isV2 = line.startsWith('VHST-EXAM-v2|');
+
+      if (isV2 && parts.length < 9) return;
+
+      if (!isV2 && parts.length < 8) return;
+
+      const subId = isV2 ? parts[1] : parts[1];
+
+      if (existingIds.has(subId)) { skipped++; return; }
+
+      const answers = JSON.parse(decodeURIComponent(escape(atob(isV2 ? parts[8] : parts[7]))));
+
+      const sub = {
+
+        id: subId,
+
+        empId: isV2 ? parts[2] : '',
+
+        name: isV2 ? parts[3] : parts[2],
+
+        department: isV2 ? parts[4] : parts[3],
+
+        paperVersion: isV2 ? parts[5] : parts[4],
+
+        submitTime: isV2 ? parts[6] : parts[5],
+
+        autoScore: parseInt(isV2 ? parts[7] : parts[6]) || 0,
+
+        answers,
+
+        manualScores: {},
+
+        totalScore: null,
+
+        graded: false
+
+      };
+
+      submissions.push(sub);
+
+      existingIds.add(subId);
+
+      imported++;
+
+    } catch(e) { console.warn('Import error:', e); }
+
+  });
+
+  localStorage.setItem('exam_submissions', JSON.stringify(submissions));
+
+  closeImportModal();
+
+  alert(`导入完成！成功 ${imported} 条，跳过重复 ${skipped} 条`);
+
+  renderDashboard();
+
+}
+
+
+
+// ==================== ADMIN ====================
+
+function showAdminLogin() {
+
+  currentView = 'admin';
+
+  hideAll();
+
+  document.getElementById('admin-login').classList.remove('hidden');
+
+}
+
+
+
+function adminLogin() {
+
+  const pwd = document.getElementById('admin-pwd').value;
+
+  if (pwd === 'vhst2026') {
+
+    showDashboard();
+
+  } else {
+
+    alert('密码错误');
+
+  }
+
+}
+
+
+
+function showDashboard() {
+
+  hideAll();
+
+  document.getElementById('admin-dashboard').classList.remove('hidden');
+
+  // Request notification permission
+
+  if ('Notification' in window && Notification.permission === 'default') {
+
+    Notification.requestPermission();
+
+  }
+
+  startAdminPolling();
+
+}
+
+
+
+function renderDashboard() {
+
+  const submissions = JSON.parse(localStorage.getItem('exam_submissions') || '[]');
+
+  const total = submissions.length;
+
+  const graded = submissions.filter(s => s.graded).length;
+
+  const pending = total - graded;
+
+
+
+  document.getElementById('stats-area').innerHTML = `<span class="stat-item">总提交：${total}</span><span class="stat-item">已批改：${graded}</span><span class="stat-item">待批改：${pending}</span>`;
+
+
+
+  const tbody = document.getElementById('submissions-tbody');
+
+  if (total === 0) {
+
+    tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;padding:32px;color:var(--gray-dark)">暂无提交记录</td></tr>';
+
+    return;
+
+  }
+
+
+
+  tbody.innerHTML = submissions.map((sub, i) => {
+
+    const manualTotal = Object.values(sub.manualScores || {}).reduce((a,b) => a + (Number(b)||0), 0);
+
+    const totalScore = sub.graded ? (sub.autoScore + manualTotal) : '-';
+
+    const isFail = sub.graded && totalScore < 90;
+
+    const scoreClass = isFail ? 'color:var(--danger);font-weight:700' : '';
+
+    const failBadge = isFail ? ' <span class="badge badge-pending">不及格</span>' : '';
+
+    return `<tr>
+
+      <td>${i+1}</td>
+
+      <td>${sub.empId || '-'}</td>
+
+      <td>${sub.name}</td>
+
+      <td>${sub.department}</td>
+
+      <td><span class="badge ${sub.paperVersion==='A'?'badge-a':'badge-b'}">${sub.paperVersion}卷</span></td>
+
+      <td>${sub.submitTime}</td>
+
+      <td>${sub.autoScore}</td>
+
+      <td><span class="badge ${sub.graded?'badge-graded':'badge-pending'}">${sub.graded?'已批改':'待批改'}</span></td>
+
+      <td style="${scoreClass}">${totalScore}${failBadge}</td>
+
+      <td><button class="btn btn-primary btn-sm" onclick="openGrading('${sub.id}')">${sub.graded?'查看':'批改'}</button> ${sub.graded?`<button class="btn btn-outline btn-sm" onclick="notifyStudent('${sub.id}')">通知考生</button>`:''}</td>
+
+    </tr>`;
+
+  }).join('');
+
+}
+
+
+
+function backToDashboard() {
+
+  showDashboard();
+
+}
+
+
+
+// ==================== GRADING ====================
+
+function openGrading(subId) {
+
+  currentGradingId = subId;
+
+  stopAdminPolling();
+
+  const submissions = JSON.parse(localStorage.getItem('exam_submissions') || '[]');
+
+  const sub = submissions.find(s => s.id === subId);
+
+  if (!sub) return;
+
+  hideAll();
+
+  document.getElementById('grading-view').classList.remove('hidden');
+
+  renderGrading(sub);
+
+}
+
+
+
+function renderGrading(sub) {
+
+  const paper = EXAM_DATA[sub.paperVersion];
+
+  document.getElementById('grading-title').textContent = `批改试卷 - ${sub.name} (${sub.paperVersion}卷)`;
+
+
+
+  let html = '';
+
+  // Auto-graded sections
+
+  ['single','multi','judge'].forEach(secId => {
+
+    const section = paper.sections.find(s => s.id === secId);
+
+    if (!section) return;
+
+    html += `<div class="grading-section"><h3>${section.name}（自动批改）</h3>`;
+
+    section.questions.forEach(q => {
+
+      const sa = sub.answers[q.id];
+
+      let correct = false;
+
+      let displayAnswer = sa || '未作答';
+
+      let statusClass = 'auto-unanswered';
+
+      let statusText = '未作答';
+
+
+
+      if (secId === 'single') {
+
+        correct = sa === q.answer;
+
+        if (sa) { statusClass = correct ? 'auto-correct' : 'auto-wrong'; statusText = correct ? '正确' : '错误'; }
+
+      } else if (secId === 'multi') {
+
+        const sortedSa = (sa || []).sort().join('');
+
+        const sortedAns = q.answer.split('').sort().join('');
+
+        correct = sortedSa === sortedAns;
+
+        displayAnswer = (sa && sa.length) ? sa.sort().join('') : '未作答';
+
+        if (sa && sa.length) { statusClass = correct ? 'auto-correct' : 'auto-wrong'; statusText = correct ? '正确' : '错误'; }
+
+      } else if (secId === 'judge') {
+
+        correct = sa === q.answer;
+
+        if (sa) { statusClass = correct ? 'auto-correct' : 'auto-wrong'; statusText = correct ? '正确' : '错误'; }
+
+      }
+
+
+
+      html += `<div class="grade-q"><div class="gq-header"><span class="gq-num">${q.id.replace(/^[AB]/,'')}</span><span class="gq-text">${q.text.replace(/\n/g,'<br>')}</span><span class="gq-score-badge">${q.score}分</span></div>`;
+
+      html += `<div class="auto-score-display">考生答案：<strong>${displayAnswer}</strong> | 正确答案：<strong>${q.answer}</strong> | <span class="${statusClass}">${statusText}</span> | 得分：<strong>${correct ? q.score : 0}</strong>/${q.score}</div>`;
+
+      html += '</div>';
+
+    });
+
+    html += '</div>';
+
+  });
+
+
+
+  // Manual grading sections
+
+  ['fill','essay'].forEach(secId => {
+
+    const section = paper.sections.find(s => s.id === secId);
+
+    if (!section) return;
+
+    html += `<div class="grading-section"><h3>${section.name}（人工批改）</h3>`;
+
+    section.questions.forEach(q => {
+
+      const sa = sub.answers[q.id] || '未作答';
+
+      const ms = sub.manualScores ? sub.manualScores[q.id] : '';
+
+      html += `<div class="grade-q"><div class="gq-header"><span class="gq-num">${q.id.replace(/^[AB]/,'')}</span><span class="gq-text">${q.text.replace(/\n/g,'<br>')}</span><span class="gq-score-badge">${q.score}分</span></div>`;
+
+      html += `<div class="gq-ref-label">考生答案：</div><div class="gq-student-answer">${sa || '（未作答）'}</div>`;
+
+      html += `<div class="gq-ref-label">参考答案：</div><div class="gq-ref-answer">${q.answer.replace(/\n/g,'<br>')}</div>`;
+
+      if (q.rubric) {
+
+        html += `<div class="gq-ref-label">评分标准：</div><div class="gq-rubric">${q.rubric}</div>`;
+
+      }
+
+      if (!q.subQuestions || !q.subQuestions.length) {
+
+        html += `<div class="grade-input-row"><label>评分：</label><input type="number" id="gscore_${q.id}" min="0" max="${q.score}" value="${ms!==undefined&&ms!==''?ms:''}" placeholder="0~${q.score}"> <span class="max-hint">满分${q.score}分</span></div>`;
+
+      }
+
+      // Sub-questions for essay
+
+      if (q.subQuestions && q.subQuestions.length) {
+
+        html += `<div style="margin:12px 0 8px;padding:10px;background:#fff8e1;border-radius:6px;border-left:4px solid #f9a825"><strong>按小问评分：</strong></div>`;
+
+        q.subQuestions.forEach(sq => {
+
+          const ssa = sub.answers[sq.id] || '未作答';
+
+          const sms = sub.manualScores ? sub.manualScores[sq.id] : '';
+
+          html += `<div style="margin:8px 0;padding:10px;background:var(--gray);border-radius:6px">
+
+            <div style="font-weight:600;margin-bottom:6px">${sq.label} ${sq.text} <span style="color:var(--primary)">（${sq.score}分）</span></div>
+
+            <div class="gq-ref-label">考生答案：</div><div class="gq-student-answer">${ssa || '（未作答）'}</div>
+
+            <div class="grade-input-row" style="margin-top:8px"><label>评分：</label><input type="number" id="gscore_${sq.id}" min="0" max="${sq.score}" value="${sms!==undefined&&sms!==''?sms:''}" placeholder="0~${sq.score}"> <span class="max-hint">满分${sq.score}分</span></div>
+
+          </div>`;
+
+        });
+
+      }
+
+      html += '</div>';
+
+    });
+
+    html += '</div>';
+
+  });
+
+
+
+  // Auto score display
+
+  html += `<div style="padding:16px;background:var(--primary-light);border-radius:8px;margin-bottom:16px"><strong>单选/多选/判断自动得分：${sub.autoScore}分</strong></div>`;
+
+
+
+  // Save button
+
+  html += `<div class="grade-actions"><button class="btn btn-primary" onclick="saveGrading()">保存批改结果</button></div>`;
+
+
+
+  document.getElementById('grading-content').innerHTML = html;
+
+}
+
+
+
+function saveGrading() {
+
+  const submissions = JSON.parse(localStorage.getItem('exam_submissions') || '[]');
+
+  const sub = submissions.find(s => s.id === currentGradingId);
+
+  if (!sub) return;
+
+  const paper = EXAM_DATA[sub.paperVersion];
+
+
+
+  // Collect manual scores
+
+  let manualScores = {};
+
+  let allFilled = true;
+
+  ['fill','essay'].forEach(secId => {
+
+    const section = paper.sections.find(s => s.id === secId);
+
+    if (!section) return;
+
+    section.questions.forEach(q => {
+
+      // Only collect main question score if no sub-questions
+
+      if (!q.subQuestions || !q.subQuestions.length) {
+
+        const input = document.getElementById('gscore_' + q.id);
+
+        const val = input ? input.value.trim() : '';
+
+        if (val === '') { allFilled = false; }
+
+        else { manualScores[q.id] = Number(val); }
+
+      }
+
+      // Also collect sub-question scores
+
+      if (q.subQuestions && q.subQuestions.length) {
+
+        q.subQuestions.forEach(sq => {
+
+          const sqInput = document.getElementById('gscore_' + sq.id);
+
+          const sqVal = sqInput ? sqInput.value.trim() : '';
+
+          if (sqVal === '') { allFilled = false; }
+
+          else { manualScores[sq.id] = Number(sqVal); }
+
+        });
+
+      }
+
+    });
+
+  });
+
+
+
+  sub.manualScores = manualScores;
+
+
+
+  if (allFilled) {
+
+    const manualTotal = Object.values(manualScores).reduce((a,b) => a + b, 0);
+
+    sub.totalScore = sub.autoScore + manualTotal;
+
+    sub.graded = true;
+
+  } else {
+
+    sub.graded = false;
+
+    const manualTotal = Object.values(manualScores).reduce((a,b) => a + b, 0);
+
+    sub.totalScore = null;
+
+  }
+
+
+
+  localStorage.setItem('exam_submissions', JSON.stringify(submissions));
+
+
+
+  // Sync grading results to cloud
+
+  cloudSyncManualScores(sub.id, sub.manualScores, sub.graded).then(ok => {
+
+    if (ok) console.log('✅ 批改结果已同步到云端');
+
+    else console.warn('⚠️ 批改结果云端同步失败');
+
+  });
+
+
+
+  if (allFilled) {
+
+    alert('批改已保存！总分：' + sub.totalScore + '分');
+
+  } else {
+
+    alert('部分主观题未评分，已保存已填写的分数。全部评分完成后将自动计算总分。');
+
+  }
+
+
+
+  renderGrading(sub);
+
+}
+
+
+
+// ==================== NOTIFY STUDENT ====================
+
+function notifyStudent(subId) {
+
+  const url = location.origin + location.pathname + '#score=' + subId;
+
+  const html = `<div class="score-link-area"><p>将以下链接发送给考生，考生可查看成绩：</p><code>${url}</code><p style="margin-top:12px"><button class="btn btn-primary btn-sm" onclick="copyLink('${url}')">复制链接</button></p></div>`;
+
+
+
+  // Insert after grading content or show as modal
+
+  const existing = document.querySelector('.score-link-area');
+
+  if (existing) existing.remove();
+
+  document.getElementById('grading-content').insertAdjacentHTML('beforeend', html);
+
+}
+
+
+
+function copyLink(url) {
+
+  if (navigator.clipboard) {
+
+    navigator.clipboard.writeText(url).then(() => alert('链接已复制'));
+
+  } else {
+
+    const ta = document.createElement('textarea');
+
+    ta.value = url;
+
+    document.body.appendChild(ta);
+
+    ta.select();
+
+    document.execCommand('copy');
+
+    document.body.removeChild(ta);
+
+    alert('链接已复制');
+
+  }
+
+}
+
+
+
+// ==================== SCORE PAGE ====================
+
+function showScorePage(subId) {
+
+  const submissions = JSON.parse(localStorage.getItem('exam_submissions') || '[]');
+
+  const sub = submissions.find(s => s.id === subId);
+
+  if (!sub || !sub.graded) {
+
+    hideAll();
+
+    document.getElementById('score-page').classList.remove('hidden');
+
+    document.getElementById('score-card').innerHTML = '<h2>成绩查询</h2><p style="text-align:center;color:var(--gray-dark)">暂无可用成绩，请确认链接是否正确或等待批改完成。</p>';
+
+    return;
+
+  }
+
+
+
+  const paper = EXAM_DATA[sub.paperVersion];
+
+  const sections = [
+
+    { name: '单选题', score: 0, max: 0 },
+
+    { name: '多选题', score: 0, max: 0 },
+
+    { name: '判断题', score: 0, max: 0 },
+
+    { name: '填空题', score: 0, max: 0 },
+
+    { name: '简答题', score: 0, max: 0 }
+
+  ];
+
+
+
+  const secMap = { single: 0, multi: 1, judge: 2, fill: 3, essay: 4 };
+
+  paper.sections.forEach(section => {
+
+    const idx = secMap[section.id];
+
+    section.questions.forEach(q => {
+
+      sections[idx].max += q.score;
+
+      if (['single','multi','judge'].includes(section.id)) {
+
+        const sa = sub.answers[q.id];
+
+        let correct = false;
+
+        if (section.id === 'single') correct = sa === q.answer;
+
+        else if (section.id === 'multi') {
+
+          const sortedSa = (sa || []).sort().join('');
+
+          const sortedAns = q.answer.split('').sort().join('');
+
+          correct = sortedSa === sortedAns;
+
+        } else if (section.id === 'judge') correct = sa === q.answer;
+
+        if (correct) sections[idx].score += q.score;
+
+      } else {
+
+        const ms = sub.manualScores ? sub.manualScores[q.id] : 0;
+
+        sections[idx].score += (Number(ms) || 0);
+
+      }
+
+    });
+
+  });
+
+
+
+  hideAll();
+
+  document.getElementById('score-page').classList.remove('hidden');
+
+  const isFail = sub.totalScore < 90;
+
+  const failMsg = isFail ? '<div style="background:#fce8e6;color:var(--danger);padding:12px;border-radius:8px;font-size:1.1rem;font-weight:700;margin-bottom:16px;text-align:center">&#9888;&#65039; 成绩未达到及格线（90分），成绩评定为：不及格</div>' : '<div style="background:#e6f4ea;color:#137333;padding:8px;border-radius:8px;font-size:.9rem;margin-bottom:16px;text-align:center">&#9989; 成绩合格</div>';
+
+  let html = `<h2>品质文化能力测评成绩</h2>${failMsg}<div class="student-info">工号：${sub.empId || '-'} | 考生：${sub.name} | 基地部门：${sub.department} | 试卷：${sub.paperVersion}卷</div><div class="total-score" style="${isFail?'color:var(--danger)':''}">${sub.totalScore} <small>/ ${paper.total}分</small></div><table><thead><tr><th>题型</th><th>得分</th><th>满分</th></tr></thead><tbody>`;
+
+  sections.forEach(s => {
+
+    html += `<tr><td>${s.name}</td><td>${s.score}</td><td>${s.max}</td></tr>`;
+
+  });
+
+  html += '</tbody></table>';
+
+  document.getElementById('score-card').innerHTML = html;
+
+}
+
+
+
+// ==================== INIT ====================
+
+route();
+
+</script>
+
+</body>
+
+</html>
+
